@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axiosInstance from "../../utils/axios/axiosInstance";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+
+
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -50,8 +52,10 @@ const Login = () => {
         "Content-Type": "application/json",
       },
     });
+    console.log(res);
     if (res.status === 200) {
       console.log("Login Success");
+      toast.success(`${res.data.message}`)
       navigate("/");
     } else {
       console.log("Login Failed");
@@ -72,9 +76,6 @@ const Login = () => {
 
   return (
     <div className=" h-screen bg-gradient-to-br from-blue-200 via-red-200 to-green-200 flex justify-center items-start pt-10 p-4">
-      <ToastContainer
-      position="bottom-right"
-      />
       <form onSubmit={handleSubmit} className="w-full max-w-2xl bg-white p-8 rounded-xl shadow-xl opacity-95 h-auto">
         <div className="flex items-center justify-center gap-2 mb-6">
           <div className="relative w-7 h-6">
