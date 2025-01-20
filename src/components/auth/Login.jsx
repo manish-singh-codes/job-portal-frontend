@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axiosInstance from "../../utils/axios/axiosInstance";
-import { toast } from "react-toastify";
+import {toast} from "sonner"
 
 
 
@@ -30,6 +30,7 @@ const Login = () => {
     e.preventDefault();
    try {
     if(!input.email && !input.password){
+      console.log("alsfjaslfjasfljsaflkj;s")
       toast.warning("Please fill all the details")
       return;
     }
@@ -51,6 +52,7 @@ const Login = () => {
       {
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     });
     console.log(res);
     if (res.status === 200) {
@@ -58,7 +60,7 @@ const Login = () => {
       toast.success(`${res.data.message}`)
       navigate("/");
     } else {
-      console.log("Login Failed");
+      toast.error(`${res.data.message}`);
     }
    } catch (error) {
      if(error.response.status === 400){
