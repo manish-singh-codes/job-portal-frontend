@@ -4,14 +4,18 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Upload } from "lucide-react";
+import { Loader2, Upload } from "lucide-react";
 import { User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Checkbox } from "@/components/ui/checkbox";
 import axiosInstance from "../../utils/axios/axiosInstance";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading } from "../../redux/authSlice";
 const SignUp = () => {
+  const {loading} = useSelector(state=> state.auth);
+  const dispatch = useDispatch();
   const [role, setRole] = useState("student");
   const [profilePic, setProfilePic] = useState(null);
   const navigate  = useNavigate();
@@ -90,6 +94,7 @@ const SignUp = () => {
     formData.append("file",input.file);
 
     try {
+      dispatch(setLoading(true));
       const res = await axiosInstance.post("api/user/register", formData,{
         headers: {
           "Content-Type": "multipart/form-data",
@@ -99,7 +104,7 @@ const SignUp = () => {
      console.log("res",res)
       if(res.status ===200){
         toast.success("User Created Successfully");
-        navigate("/")
+        navigate("/login")
       }
     } catch (error) {
       console.log("error",error)
@@ -107,7 +112,9 @@ const SignUp = () => {
          toast.error("User already exist with the same email")
        }
     }
-
+    finally{
+      dispatch(setLoading(false));
+    }
   }
 
   return (
@@ -131,7 +138,7 @@ const SignUp = () => {
             {/* Green circle on bottom right */}
             <div className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-[#00FF00] opacity-80 z-10"></div>
           </div>
-          <h1 className="text-3xl font-bold text-gray-800">
+          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800">
             Get started with <span className="text-[#FF0000]">JobNest</span>
           </h1>
         </div>
@@ -184,7 +191,7 @@ const SignUp = () => {
           </div>
 
           <div>
-            <Label className="text-gray-700">Password</Label>
+            <Label className="text-gray-700">Password (Min 6 characters) </Label>
             <Input
               onChange={handleChange}
               name="password"
@@ -258,9 +265,12 @@ const SignUp = () => {
         <Button
         disabled={!go}
           type="submit"
-          className="w-full mt-6 bg-[#00CC00] hover:bg-[#35b435] text-white font-medium py-2.5"
+          className={`w-full mt-6 bg-[#00CC00] hover:bg-[#35b435] text-white font-medium py-2.5 ${!go ? "cursor-not-allowed" : ""}`}
         >
-          Sign Up
+               {loading ?   <>
+          <Loader2 className=" animate-spin" />
+          <span>Loading....</span>
+        </> : "Login"}
         </Button>
 
         <div className="mt-6 text-center">

@@ -17,8 +17,8 @@ const Navbar = () => {
   const user = false;
 
   return (
-    <header className="bg-white sticky top-0 z-50 border-b shadow-sm">
-      <nav className="flex h-16 items-center justify-between mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <header className="bg-white sticky top-0 z-50 border-b shadow-sm w-full">
+      <nav className="flex h-16 items-center justify-between mx-auto  px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
           <div className="relative w-8 h-7">

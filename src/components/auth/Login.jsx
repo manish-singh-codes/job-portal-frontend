@@ -6,18 +6,24 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axiosInstance from "../../utils/axios/axiosInstance";
 import {toast} from "sonner"
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading } from "../../redux/authSlice";
+import { Loader2 } from "lucide-react";
 
 
 
 
 const Login = () => {
+  const {loading} = useSelector(state=> state.auth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [role, setRole] = useState("student");
   const [input,setInput] = useState({
     email: "",
     password: "",
     role: "student",
   });
+  console.log(loading)
 
   const handleChange = (e) => { 
     setInput({
@@ -29,21 +35,26 @@ const Login = () => {
   const handleSubmit = async(e) => {
     e.preventDefault();
    try {
+    dispatch(setLoading(true));
     if(!input.email && !input.password){
       console.log("alsfjaslfjasfljsaflkj;s")
       toast.warning("Please fill all the details")
+      dispatch(setLoading(false));
       return;
     }
     if(!input.email){
       toast.warning("Please provide Email")
+      dispatch(setLoading(false));
       return;
     }
     if(!input.password){
       toast.warning("Please provide Password")
+      dispatch(setLoading(false));
       return; 
     }
     if(input.password.length < 6){
       toast.warning("Password should be atleast 6 characters")
+      dispatch(setLoading(false));
       return;
     }
 
@@ -74,10 +85,13 @@ const Login = () => {
       }
     
    }
+   finally{
+    dispatch(setLoading(false));
+   }
   };
 
   return (
-    <div className=" h-screen bg-gradient-to-br from-blue-200 via-red-200 to-green-200 flex justify-center items-start pt-10 p-4">
+    <div className="h-screen bg-gradient-to-br from-blue-200 via-red-200 to-green-200 flex justify-center items-start pt-10 p-4">
       <form onSubmit={handleSubmit} className="w-full max-w-2xl bg-white p-8 rounded-xl shadow-xl opacity-95 h-auto">
         <div className="flex items-center justify-center gap-2 mb-6">
           <div className="relative w-7 h-6">
@@ -90,7 +104,7 @@ const Login = () => {
             {/* Green circle on bottom right */}
             <div className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-[#00FF00] opacity-80 z-10"></div>
           </div>
-          <h1 className="text-3xl font-bold text-gray-800">
+          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800">
             Find Talent or Dream Job at{" "}
             <span className="text-[#FF0000]">JobNest</span>
           </h1>
@@ -146,11 +160,15 @@ const Login = () => {
           </div>
         </div>
 
-        <Button
+        <Button disabled={loading}
           type="submit"
           className="w-full mt-6 bg-[#00CC00] hover:bg-[#35b435] text-white font-medium py-2.5"
         >
-          Sign Up
+        {loading ?   <>
+          <Loader2 className=" animate-spin" />
+          <span>Loading....</span>
+        </> : "Login"}
+      
         </Button>
 
         <div className="mt-6 text-center">
