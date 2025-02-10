@@ -39,7 +39,7 @@ import { Search } from "lucide-react"
 
 const HeroSection = () => {
   return (
-    <div className="bg-gradient-to-b from-blue-100 to-white py-12 md:py-20 lg:py-24">
+    <div className="bg-gradient-to-b from-blue-100 to-white py-12 md:py-20 lg:pt-24">
       <div className="container mx-auto px-4 text-center max-w-4xl">
         <span className="inline-block font-medium bg-green-100 text-green-600 px-4 py-2 rounded-full text-sm md:text-base mb-6">
           #1 Job Portal
