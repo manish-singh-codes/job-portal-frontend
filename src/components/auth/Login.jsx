@@ -162,7 +162,7 @@ const Login = () => {
 
         <Button disabled={loading}
           type="submit"
-          className="w-full mt-6 bg-[#00CC00] hover:bg-[#35b435] text-white font-medium py-2.5"
+          className="w-full mt-6 bg-[#22C55E] hover:bg-[#35b435] text-white font-medium py-2.5"
         >
         {loading ?   <>
           <Loader2 className=" animate-spin" />
