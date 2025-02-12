@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/sheet";
 
 const Navbar = () => {
-  const user = false;
+  const user = true;
 
   return (
     <header className="bg-white sticky top-0 z-50 border-b shadow-sm w-full">
