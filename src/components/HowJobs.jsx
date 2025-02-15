@@ -4,7 +4,7 @@ import { Search, Clock, UserCheck } from "lucide-react"
 const HowJobs = () => {
   return (
     <div>
-         <div className="bg-[url(./assets/applybg.png)] py-16 px-4">
+         <div className="bg-[url(./assets/applybg.png)] py-16 px-4 mt-5">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <p className="text-[#ff3366] font-medium mb-4">APPLY PROCESS</p>

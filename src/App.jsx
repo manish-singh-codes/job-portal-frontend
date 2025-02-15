@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/shared/Navbar";
 import OfferBanner from "./components/shared/OfferBanner";
+import Jobs from "./pages/Jobs";
 function App() {
   return (
     <>
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/jobs" element={<Jobs/>} />
         </Routes>
       </BrowserRouter>
     </>
