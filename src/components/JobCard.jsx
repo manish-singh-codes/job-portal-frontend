@@ -1,4 +1,4 @@
-import React from "react";
+'use client';
 
 const JobCard = () => {
   const skills = ["Node", "C++", "Java"];

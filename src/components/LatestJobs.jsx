@@ -12,10 +12,8 @@ const LatestJobs = () => {
         {" "}
         <span className=" text-[#ef4444] ">Top and Latest</span> Job Openings
       </h1>
-      <div className=" mt-5 grid grid-cols-1 md:grid-cols-3  gap-4 px-10 ">
-        {jobs.slice(0, 6).map((key, index) => (
-          <JobCard />
-        ))}
+      <div className=" mt-5 grid md:grid-cols-[repeat(3,1fr)]   grid-cols-1  gap-4 px-10 ">
+        {jobs.slice(0, 6).map((job, index) => <JobCard key={index} />)}
       </div>
     </div>
     </div>
