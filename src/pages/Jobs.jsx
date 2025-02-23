@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-
 const jobs = [
   {
     id: 1,
@@ -11,7 +10,8 @@ const jobs = [
     daysLeft: 11,
     experienceLevel: "Experienced Professionals",
     updatedDate: "Feb 19, 2025",
-    description: "Mobzway Technology is hiring for the role of Frontend Developer!",
+    description:
+      "Mobzway Technology is hiring for the role of Frontend Developer!",
     responsibilities: [
       "Implementing visual elements and their behaviors with user interactions",
       "Work with both front-end and back-end web developers to build all client-side logic",
@@ -31,7 +31,8 @@ const jobs = [
     daysLeft: 12,
     experienceLevel: "Experienced Professionals",
     updatedDate: "Feb 19, 2025",
-    description: "FNZ Group is looking for a Software Engineer to join our team!",
+    description:
+      "FNZ Group is looking for a Software Engineer to join our team!",
     responsibilities: [
       "Develop and maintain software applications",
       "Collaborate with cross-functional teams",
@@ -52,7 +53,8 @@ const jobs = [
     daysLeft: 16,
     experienceLevel: "Experienced Professionals",
     updatedDate: "Feb 19, 2025",
-    description: "Join Target as an iOS Engineer and help build our next-generation mobile applications!",
+    description:
+      "Join Target as an iOS Engineer and help build our next-generation mobile applications!",
     responsibilities: [
       "Build and maintain iOS applications",
       "Implement new features and functionality",
@@ -64,43 +66,10 @@ const jobs = [
       "Knowledge of mobile app architecture",
     ],
   },
-]
-
+];
 
 const Jobs = () => {
-  // const jobarray = [1, 1, 1, 1, 1, 1];
-  // return (
-  //   <div>
-  //     <div className=" max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-  //       <div className=" flex gap-5">
-  //         <div className=" w-[20%]">
-  //           <FilterCard />
-  //         </div>
-  //       {jobarray.length <= 0 ? (
-  //         <span>Job not found</span>
-  //       ) : (
-  //         <div className=" flex-1 h-[88vh] overflow-y-auto pb-5 ">
-  //           <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-  //             {jobarray.map((job, index) => (
-  //               <div key={index} className=" bg-white rounded-lg shadow-md">
-  //                 {" "}
-  //                 <Job />{" "}
-  //               </div>
-  //             ))}
-  //           </div>
-  //         </div>
-  //       )}
-  //       {/* Filter page */}
-
-  //       {/* Job Card */}
-  //       </div>gi
-  //     </div>
-  //   </div>
-  // );
-
-
-  const [selectedJob, setSelectedJob] = useState(jobs[0])
-
+  const [selectedJob, setSelectedJob] = useState(jobs[0]);
   return (
     <div className="min-h-screen bg-gray-50 max-w-7xl mx-auto">
       {/* Header */}
@@ -123,61 +92,67 @@ const Jobs = () => {
                 3
               </span>
             </button>
-            <button className="ml-auto bg-gray-100 text-gray-700 px-4 py-2 rounded-md flex items-center gap-2">
-              Quick Apply
-            </button>
           </div>
         </div>
       </header>
 
       {/* Search bar */}
-      <div className="bg-white border-b">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center gap-4">
-            <input
-              type="text"
-              placeholder="Search for jobs"
-              className="flex-1 border border-gray-200 rounded-md px-4 py-2 focus:outline-none" 
-            />
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-md">Search</button>
-          </div>
-        </div>
-      </div>
-
+      <div className="bg-white border-b"></div>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-[1fr] md:grid-cols-[1fr_2fr] gap-6">
-          {/* Job List */}
-          <div className="space-y-4">
-            {jobs.map((job) => (
-              <div
-                key={job.id}
-                onClick={() => setSelectedJob(job)}
-                className={`cursor-pointer rounded-lg border p-4 transition-all hover:border-blue-500 ${
-                  selectedJob.id === job.id ? "border-blue-500 bg-white shadow-sm" : "border-gray-200 bg-white"
-                }`}
-              >
-                <div className="flex gap-4">
-                  <div className="h-12 w-12 flex-shrink-0 rounded-lg border">
-                    <img
-                      src={job.logo || "/placeholder.svg"}
-                      alt={job.company}
-                      className="h-full w-full object-contain p-2"
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <div className="text-xs text-gray-500">Job</div>
-                    <h3 className="font-medium text-gray-900">{job.title}</h3>
-                    <p className="text-sm text-gray-600">{job.company}</p>
-                    <div className="mt-2 flex items-center gap-2">
-                      <span className="text-sm text-gray-500">{job.daysLeft} days left</span>
-                      <span className="inline-block rounded-full border px-3 py-1 text-xs">{job.experienceLevel}</span>
+          <div>
+            {/* Search bar */}
+            <div className="container mx-auto py-6">
+              <div className="flex items-center justify-between">
+                <input
+                  type="text"
+                  placeholder="Search for jobs"
+                  className="flex-1 border border-gray-200 rounded-l-full px-4 py-2 focus:outline-none"
+                  />
+                <button className="bg-blue-500 text-white px-4 py-2 rounded-r-full">
+                  Search
+                </button>
+              </div>
+            </div>
+            {/* Job List */}
+            <div className="space-y-4">
+              {jobs.map((job) => (
+                <div
+                  key={job.id}
+                  onClick={() => setSelectedJob(job)}
+                  className={`cursor-pointer rounded-lg border p-4 transition-all hover:border-blue-500 ${
+                    selectedJob.id === job.id
+                      ? "border-blue-500 bg-white shadow-sm"
+                      : "border-gray-200 bg-white"
+                  }`}
+                >
+                  <div className="flex gap-4">
+                    <div className="h-12 w-12 flex-shrink-0 rounded-lg border">
+                      <img
+                        src={job.logo || "/placeholder.svg"}
+                        alt={job.company}
+                        className="h-full w-full object-contain p-2"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-xs text-gray-500">Job</div>
+                      <h3 className="font-medium text-gray-900">{job.title}</h3>
+                      <p className="text-sm text-gray-600">{job.company}</p>
+                      <div className="mt-2 flex items-center gap-2">
+                        <span className="text-sm text-gray-500">
+                          {job.daysLeft} days left
+                        </span>
+                        <span className="inline-block rounded-full border px-3 py-1 text-xs">
+                          {job.experienceLevel}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           {/* Job Details */}
@@ -191,11 +166,18 @@ const Jobs = () => {
                 />
               </div>
               <div className="flex-1">
-                <h2 className="text-2xl font-bold text-gray-900">{selectedJob.title}</h2>
+                <h2 className="text-2xl font-bold text-gray-900">
+                  {selectedJob.title}
+                </h2>
                 <p className="text-lg text-gray-600">{selectedJob.company}</p>
                 <div className="mt-4 flex items-center gap-6">
                   <div className="flex items-center gap-2">
-                    <svg className="h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg
+                      className="h-5 w-5 text-gray-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -209,10 +191,17 @@ const Jobs = () => {
                         d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                       />
                     </svg>
-                    <span className="text-gray-600">{selectedJob.location}</span>
+                    <span className="text-gray-600">
+                      {selectedJob.location}
+                    </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <svg className="h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg
+                      className="h-5 w-5 text-gray-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -220,13 +209,20 @@ const Jobs = () => {
                         d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                       />
                     </svg>
-                    <span className="text-gray-600">Updated On: {selectedJob.updatedDate}</span>
+                    <span className="text-gray-600">
+                      Updated On: {selectedJob.updatedDate}
+                    </span>
                   </div>
                 </div>
               </div>
               <div className="flex gap-2">
                 <button className="rounded-md border border-gray-200 p-2">
-                  <svg className="h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg
+                    className="h-5 w-5 text-gray-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -235,27 +231,36 @@ const Jobs = () => {
                     />
                   </svg>
                 </button>
-  
               </div>
             </div>
 
             <div className="mt-8">
-              <button className="w-full rounded-md bg-blue-500 py-3 text-white hover:bg-blue-600">Apply</button>
+              <button className="w-full rounded-md bg-blue-500 py-3 text-white hover:bg-blue-600">
+                Apply
+              </button>
             </div>
 
             <div className="mt-8 space-y-6">
               <div>
-                <h3 className="text-lg font-semibold text-gray-900">Eligibility</h3>
-                <p className="mt-2 text-gray-600">{selectedJob.experienceLevel}</p>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Eligibility
+                </h3>
+                <p className="mt-2 text-gray-600">
+                  {selectedJob.experienceLevel}
+                </p>
               </div>
 
               <div>
-                <h3 className="text-lg font-semibold text-gray-900">Job Description</h3>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Job Description
+                </h3>
                 <p className="mt-2 text-gray-600">{selectedJob.description}</p>
               </div>
 
               <div>
-                <h3 className="text-lg font-semibold text-gray-900">Responsibilities of the Candidate:</h3>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Responsibilities of the Candidate:
+                </h3>
                 <ul className="mt-2 list-inside list-disc space-y-2 text-gray-600">
                   {selectedJob.responsibilities.map((responsibility, index) => (
                     <li key={index}>{responsibility}</li>
@@ -264,7 +269,9 @@ const Jobs = () => {
               </div>
 
               <div>
-                <h3 className="text-lg font-semibold text-gray-900">Requirements:</h3>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Requirements:
+                </h3>
                 <ul className="mt-2 list-inside list-disc space-y-2 text-gray-600">
                   {selectedJob.requirements.map((requirement, index) => (
                     <li key={index}>{requirement}</li>
@@ -276,7 +283,7 @@ const Jobs = () => {
         </div>
       </div>
     </div>
-  )
+  );
 };
 
 export default Jobs;
