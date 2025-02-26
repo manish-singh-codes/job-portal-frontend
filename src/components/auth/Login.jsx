@@ -7,7 +7,7 @@ import { useState } from "react";
 import axiosInstance from "../../utils/axios/axiosInstance";
 import {toast} from "sonner"
 import { useDispatch, useSelector } from "react-redux";
-import { setLoading } from "../../redux/authSlice";
+import { setLoading, setUser } from "../../redux/authSlice";
 import { Loader2 } from "lucide-react";
 
 
@@ -69,6 +69,7 @@ const Login = () => {
     if (res.status === 200) {
       console.log("Login Success");
       toast.success(`${res.data.message}`)
+      dispatch(setUser(res.data.user));
       navigate("/");
     } else {
       toast.error(`${res.data.message}`);

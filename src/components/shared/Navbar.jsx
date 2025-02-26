@@ -12,9 +12,10 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
-  const user = false;
+  const { user } = useSelector((state) => state.auth);
 
   return (
     <header className="bg-white sticky top-0 z-50 border-b shadow-sm w-full">
