@@ -13,9 +13,41 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import axiosInstance from "../../utils/axios/axiosInstance";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/authSlice";
 
 const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+     const getUser = async () => {
+      try {
+        const res = await axiosInstance.get("/api/user/getUser", {
+            withCredentials: true,
+            });
+        console.log("as;fljaslfj",res.data);
+        dispatch(setUser(res.data.user));
+      } catch (error) {
+        console.log(error);
+      }
+     }
+     getUser();
+  }, []);
+
+  const handleLogout = async()=>{
+    try {
+      await axiosInstance.get("/api/user/logout", {
+        withCredentials: true,
+      });
+      dispatch(setUser(null));
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
 
   return (
     <header className="bg-white sticky top-0 z-50 border-b shadow-sm w-full">
@@ -108,17 +140,19 @@ const Navbar = () => {
                         <AvatarFallback>MS</AvatarFallback>
                       </Avatar>
                       <div className="space-y-1">
-                        <h4 className="font-semibold text-sm">Manish Singh</h4>
-                        <p className="text-sm text-gray-500">manish@gmail.com</p>
+                        <h4 className="font-semibold text-sm">{user.fullname}</h4>
+                        <p className="text-sm text-gray-500">{user.email}</p>
                       </div>
                     </div>
                     <div className="space-y-1">
-                      <Button 
+                      <Button asChild 
                         variant="ghost" 
                         className="w-full justify-start gap-2 text-gray-600 hover:text-gray-900"
                       >
+                        <Link to={'/profile'} >
                         <User2 className="h-4 w-4" />
                         View Profile
+                        </Link>
                       </Button>
                       <Button 
                         variant="ghost" 
@@ -134,7 +168,7 @@ const Navbar = () => {
                         <Settings className="h-4 w-4" />
                         Settings
                       </Button>
-                      <Button 
+                      <Button onClick={handleLogout} 
                         variant="ghost" 
                         className="w-full justify-start gap-2 text-red-500 hover:text-red-600 hover:bg-red-50"
                       >
