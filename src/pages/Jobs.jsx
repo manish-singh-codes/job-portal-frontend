@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useMediaQuery } from "react-responsive";
+import { useNavigate } from "react-router-dom";
 
 const jobs = [
   {
@@ -70,6 +72,18 @@ const jobs = [
 
 const Jobs = () => {
   const [selectedJob, setSelectedJob] = useState(jobs[0]);
+  const smallScreen = useMediaQuery({ query: "(max-width: 768px)" });
+  const navigate = useNavigate()
+
+  const handleJobClick = (job) =>{
+    setSelectedJob(job)
+    if(smallScreen){
+      setTimeout(() => {
+        navigate(`/jobs/${job.id}`)
+      }, 200);
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 max-w-7xl mx-auto">
       {/* Header */}
@@ -121,7 +135,7 @@ const Jobs = () => {
               {jobs.map((job) => (
                 <div
                   key={job.id}
-                  onClick={() => setSelectedJob(job)}
+                  onClick={() => handleJobClick(job)}
                   className={`cursor-pointer rounded-lg border p-4 transition-all hover:border-blue-500 ${
                     selectedJob.id === job.id
                       ? "border-blue-500 bg-white shadow-sm"

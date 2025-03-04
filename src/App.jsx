@@ -7,6 +7,7 @@ import Navbar from "./components/shared/Navbar";
 import OfferBanner from "./components/shared/OfferBanner";
 import Jobs from "./pages/Jobs";
 import Profile from "./pages/Profile";
+import JobDescription from "./pages/JobDescription";
 function App() {
   return (
     <>
@@ -18,6 +19,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/jobs" element={<Jobs/>} />
+          <Route path="/jobs/:id" element={<JobDescription/>} />
           <Route path="/profile" element={<Profile/>} />
         </Routes>
       </BrowserRouter>
