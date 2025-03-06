@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate } from "react-router-dom";
+import { ArrowDownUp, Check, ChevronsUpDown } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 
 const jobs = [
   {
@@ -68,7 +73,198 @@ const jobs = [
       "Knowledge of mobile app architecture",
     ],
   },
+  {
+    id: 4,
+    title: "Frontend Developer",
+    company: "Mobzway Technology",
+    location: "Jaipur",
+    logo: "https://d8it4huxumps7.cloudfront.net/uploads/images/150x150/67b4d5ac9d3d9_organisation_image-hHSfpEjbjx1835853755AZHph7wtQ9.png?d=200x200",
+    daysLeft: 11,
+    experienceLevel: "Experienced Professionals",
+    updatedDate: "Feb 19, 2025",
+    description:
+      "Mobzway Technology is hiring for the role of Frontend Developer!",
+    responsibilities: [
+      "Implementing visual elements and their behaviors with user interactions",
+      "Work with both front-end and back-end web developers to build all client-side logic",
+      "Bridging the gap between the visual elements and the server-side infrastructure, taking an active role on both sides, and defining how the application looks and functions",
+    ],
+    requirements: [
+      "Strong understanding of JavaScript, its quirks, and workarounds",
+      "Practical HTML5, CSS, Node JavaScript experience",
+    ],
+  },
+  {
+    id: 5,
+    title: "Software Engineer",
+    company: "FNZ Group",
+    location: "Remote",
+    logo: "https://d8it4huxumps7.cloudfront.net/uploads/images/150x150/uploadedManual-67b4596335b91_download__17_.png?d=200x200",
+    daysLeft: 12,
+    experienceLevel: "Experienced Professionals",
+    updatedDate: "Feb 19, 2025",
+    description:
+      "FNZ Group is looking for a Software Engineer to join our team!",
+    responsibilities: [
+      "Develop and maintain software applications",
+      "Collaborate with cross-functional teams",
+      "Write clean, maintainable code",
+    ],
+    requirements: [
+      "3+ years of software development experience",
+      "Strong problem-solving skills",
+      "Experience with modern development practices",
+    ],
+  },
+  {
+    id: 6,
+    title: "iOS Engineer",
+    company: "Target",
+    location: "Minneapolis",
+    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-02-19%20014353-zaG5RwQO4GYC3sr6KQe8wIl5W3tHcy.png",
+    daysLeft: 16,
+    experienceLevel: "Experienced Professionals",
+    updatedDate: "Feb 19, 2025",
+    description:
+      "Join Target as an iOS Engineer and help build our next-generation mobile applications!",
+    responsibilities: [
+      "Build and maintain iOS applications",
+      "Implement new features and functionality",
+      "Optimize application performance",
+    ],
+    requirements: [
+      "Experience with Swift and iOS development",
+      "Understanding of iOS design principles",
+      "Knowledge of mobile app architecture",
+    ],
+  },
+  {
+    id: 7,
+    title: "Frontend Developer",
+    company: "Mobzway Technology",
+    location: "Jaipur",
+    logo: "https://d8it4huxumps7.cloudfront.net/uploads/images/150x150/67b4d5ac9d3d9_organisation_image-hHSfpEjbjx1835853755AZHph7wtQ9.png?d=200x200",
+    daysLeft: 11,
+    experienceLevel: "Experienced Professionals",
+    updatedDate: "Feb 19, 2025",
+    description:
+      "Mobzway Technology is hiring for the role of Frontend Developer!",
+    responsibilities: [
+      "Implementing visual elements and their behaviors with user interactions",
+      "Work with both front-end and back-end web developers to build all client-side logic",
+      "Bridging the gap between the visual elements and the server-side infrastructure, taking an active role on both sides, and defining how the application looks and functions",
+    ],
+    requirements: [
+      "Strong understanding of JavaScript, its quirks, and workarounds",
+      "Practical HTML5, CSS, Node JavaScript experience",
+    ],
+  },
+  {
+    id: 8,
+    title: "Software Engineer",
+    company: "FNZ Group",
+    location: "Remote",
+    logo: "https://d8it4huxumps7.cloudfront.net/uploads/images/150x150/uploadedManual-67b4596335b91_download__17_.png?d=200x200",
+    daysLeft: 12,
+    experienceLevel: "Experienced Professionals",
+    updatedDate: "Feb 19, 2025",
+    description:
+      "FNZ Group is looking for a Software Engineer to join our team!",
+    responsibilities: [
+      "Develop and maintain software applications",
+      "Collaborate with cross-functional teams",
+      "Write clean, maintainable code",
+    ],
+    requirements: [
+      "3+ years of software development experience",
+      "Strong problem-solving skills",
+      "Experience with modern development practices",
+    ],
+  },
+  {
+    id: 9,
+    title: "iOS Engineer",
+    company: "Target",
+    location: "Minneapolis",
+    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-02-19%20014353-zaG5RwQO4GYC3sr6KQe8wIl5W3tHcy.png",
+    daysLeft: 16,
+    experienceLevel: "Experienced Professionals",
+    updatedDate: "Feb 19, 2025",
+    description:
+      "Join Target as an iOS Engineer and help build our next-generation mobile applications!",
+    responsibilities: [
+      "Build and maintain iOS applications",
+      "Implement new features and functionality",
+      "Optimize application performance",
+    ],
+    requirements: [
+      "Experience with Swift and iOS development",
+      "Understanding of iOS design principles",
+      "Knowledge of mobile app architecture",
+    ],
+  },
 ];
+
+const locations = [
+  { value: "remote", label: "Remote" },
+  { value: "jaipur", label: "Jaipur" },
+  { value: "minneapolis", label: "Minneapolis" },
+  // Add more locations as needed
+]
+
+const industries = [
+  { value: "technology", label: "Technology" },
+  { value: "finance", label: "Finance" },
+  { value: "retail", label: "Retail" },
+  // Add more industries as needed
+]
+
+const salaryRanges = [
+  { value: "0-50k", label: "$0 - $50,000" },
+  { value: "50k-100k", label: "$50,000 - $100,000" },
+  { value: "100k+", label: "$100,000+" },
+]
+
+const Combobox = ({ options, placeholder }) => {
+  const [open, setOpen] = useState(false)
+  const [value, setValue] = useState("")
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button variant="outline" role="combobox" aria-expanded={open} className="w-[200px] justify-between">
+          {value ? options.find((option) => option.value === value)?.label : placeholder}
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[200px] p-0">
+        <Command>
+          <CommandInput placeholder={`Search ${placeholder.toLowerCase()}...`} />
+          <CommandList>
+            <CommandEmpty>No {placeholder.toLowerCase()} found.</CommandEmpty>
+            <CommandGroup>
+              {options.map((option) => (
+                <CommandItem
+                  key={option.value}
+                  value={option.value}
+                  onSelect={(currentValue) => {
+                    setValue(currentValue === value ? "" : currentValue)
+                    setOpen(false)
+                  }}
+                >
+                  <Check className={cn("mr-2 h-4 w-4", value === option.value ? "opacity-100" : "opacity-0")} />
+                  {option.label}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+
 
 const Jobs = () => {
   const [selectedJob, setSelectedJob] = useState(jobs[0]);
@@ -85,38 +281,27 @@ const Jobs = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 max-w-7xl mx-auto">
+    <div className=" bg-gray-50 h-screen max-w-7xl mx-auto">
       {/* Header */}
-      <header className="bg-white border-b w-full overflow-x-scroll text-xs md:text-sm ">
-        <div className="container mx-auto px-4 py-4">
+      <header className="bg-whit border-b w-full overflow-x-scroll md:overflow-x-visible text-xs md:text-sm ">
+        <div className="container mx-auto py-4">
           <div className="flex items-center gap-4">
-            <button className="text-gray-600 py-2">Salary (High to Low)</button>
-            <button className="text-gray-600 py-2 flex items-center gap-1">
-              Filters
-              <span className="bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                1
-              </span>
-            </button>
-            <button className="text-gray-600 px-4 py-2">Location</button>
-            <button className="text-gray-600 px-4 py-2">Work Type</button>
-            <button className="text-gray-600 px-4 py-2">User Type</button>
-            <button className="text-gray-600 px-4 py-2 flex items-center gap-1">
-              Category
-              <span className="bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                3
-              </span>
-            </button>
+            <Button className=" bg-[#22C55E] hover:bg-green-600 text-white flex justify-between" options={locations} placeholder="none" >
+              <span>Salary High to Low</span>
+              <ArrowDownUp />
+            </Button>
+
+            <Combobox options={locations} placeholder="Location" />
+            <Combobox options={industries} placeholder="Industry" />
+            <Combobox options={salaryRanges} placeholder="Salary Range" />
           </div>
         </div>
       </header>
 
-      {/* Search bar */}
-      <div className="bg-white border-b"></div>
-
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-6">
-        <div className="grid grid-cols-[1fr] md:grid-cols-[1fr_2fr] gap-6">
-          <div>
+      <div className=" container h-full mx-auto px-4 py-6">
+        <div className=" grid grid-cols-[1fr] md:grid-cols-[1fr_2fr] h-full gap-6">
+          <div className=" h-[650px] ">
             {/* Search bar */}
             <div className="container mx-auto py-6">
               <div className="flex items-center justify-between">
@@ -131,7 +316,7 @@ const Jobs = () => {
               </div>
             </div>
             {/* Job List */}
-            <div className="space-y-4">
+            <div className="h-full space-y-4 overflow-y-scroll overscroll-contain ">
               {jobs.map((job) => (
                 <div
                   key={job.id}
@@ -170,7 +355,7 @@ const Jobs = () => {
           </div>
 
           {/* Job Details */}
-          <div className=" hidden md:block rounded-lg border border-gray-200 bg-white p-6">
+          <div className="h-full overflow-y-scroll overscroll-contain hidden md:block rounded-lg border border-gray-200 bg-white p-6">
             <div className="flex items-start gap-4">
               <div className="h-16 w-16 flex-shrink-0 rounded-lg border">
                 <img
@@ -288,6 +473,18 @@ const Jobs = () => {
                 </h3>
                 <ul className="mt-2 list-inside list-disc space-y-2 text-gray-600">
                   {selectedJob.requirements.map((requirement, index) => (
+                    <li key={index}>{requirement}</li>
+                  ))}
+                    {selectedJob.requirements.map((requirement, index) => (
+                    <li key={index}>{requirement}</li>
+                  ))}
+                    {selectedJob.requirements.map((requirement, index) => (
+                    <li key={index}>{requirement}</li>
+                  ))}
+                    {selectedJob.requirements.map((requirement, index) => (
+                    <li key={index}>{requirement}</li>
+                  ))}
+                    {selectedJob.requirements.map((requirement, index) => (
                     <li key={index}>{requirement}</li>
                   ))}
                 </ul>
