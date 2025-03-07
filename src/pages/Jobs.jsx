@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import PropTypes from 'prop-types';
 
 const jobs = [
   {
@@ -220,14 +221,14 @@ const industries = [
 ]
 
 const salaryRanges = [
-  { value: "0-50k", label: "$0 - $50,000" },
-  { value: "50k-100k", label: "$50,000 - $100,000" },
-  { value: "100k+", label: "$100,000+" },
+  { value: "0-50k", label: "0LPA - 5LPA" },
+  { value: "50k-100k", label: "5LPA - 10LPA" },
+  { value: "100k+", label: "10+LPA" },
 ]
 
 const Combobox = ({ options, placeholder }) => {
-  const [open, setOpen] = useState(false)
-  const [value, setValue] = useState("")
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -248,8 +249,8 @@ const Combobox = ({ options, placeholder }) => {
                   key={option.value}
                   value={option.value}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue)
-                    setOpen(false)
+                    setValue(currentValue === value ? "" : currentValue);
+                    setOpen(false);
                   }}
                 >
                   <Check className={cn("mr-2 h-4 w-4", value === option.value ? "opacity-100" : "opacity-0")} />
@@ -261,8 +262,18 @@ const Combobox = ({ options, placeholder }) => {
         </Command>
       </PopoverContent>
     </Popover>
-  )
-}
+  );
+};
+
+Combobox.propTypes = {
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  placeholder: PropTypes.string.isRequired,
+};
 
 
 
@@ -281,7 +292,7 @@ const Jobs = () => {
   }
 
   return (
-    <div className=" bg-gray-50 h-screen max-w-7xl mx-auto">
+    <div className=" bg-gray-50 min-w-7xl mx-auto">
       {/* Header */}
       <header className="bg-whit border-b w-full overflow-x-scroll md:overflow-x-visible text-xs md:text-sm ">
         <div className="container mx-auto py-4">
@@ -299,7 +310,7 @@ const Jobs = () => {
       </header>
 
       {/* Main Content */}
-      <div className=" container h-full mx-auto px-4 py-6">
+      <div className=" container mx-auto px-4 py-6">
         <div className=" grid grid-cols-[1fr] md:grid-cols-[1fr_2fr] h-full gap-6">
           <div className=" h-[650px] ">
             {/* Search bar */}
@@ -316,7 +327,7 @@ const Jobs = () => {
               </div>
             </div>
             {/* Job List */}
-            <div className="h-full space-y-4 overflow-y-scroll overscroll-contain ">
+            <div className="h-3/4 space-y-4 overflow-y-scroll overscroll-contain ">
               {jobs.map((job) => (
                 <div
                   key={job.id}
@@ -355,7 +366,7 @@ const Jobs = () => {
           </div>
 
           {/* Job Details */}
-          <div className="h-full overflow-y-scroll overscroll-contain hidden md:block rounded-lg border border-gray-200 bg-white p-6">
+          <div className=" h-[600px] overflow-y-scroll overscroll-contain hidden md:block rounded-lg border border-gray-200 bg-white p-6">
             <div className="flex items-start gap-4">
               <div className="h-16 w-16 flex-shrink-0 rounded-lg border">
                 <img
