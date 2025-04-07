@@ -2,86 +2,222 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 const JobDescription = () => {
-    const Job = [
-        {
-            id: 1,
-            title: "Frontend Developer",
-            company: "Mobzway Technology",
-            location: "Jaipur",
-          logo: "https://d8it4huxumps7.cloudfront.net/uploads/images/150x150/67b4d5ac9d3d9_organisation_image-hHSfpEjbjx1835853755AZHph7wtQ9.png?d=200x200",
-          daysLeft: 11,
-          experienceLevel: "Experienced Professionals",
-          updatedDate: "Feb 19, 2025",
-          description:
-          "Mobzway Technology is hiring for the role of Frontend Developer!",
-          responsibilities: [
-              "Implementing visual elements and their behaviors with user interactions",
-              "Work with both front-end and back-end web developers to build all client-side logic",
-              "Bridging the gap between the visual elements and the server-side infrastructure, taking an active role on both sides, and defining how the application looks and functions",
-            ],
-            requirements: [
-                "Strong understanding of JavaScript, its quirks, and workarounds",
-                "Practical HTML5, CSS, Node JavaScript experience",
-            ],
-        },
-        {
-            id: 2,
-            title: "Software Engineer",
-            company: "FNZ Group",
-            location: "Remote",
-            logo: "https://d8it4huxumps7.cloudfront.net/uploads/images/150x150/uploadedManual-67b4596335b91_download__17_.png?d=200x200",
-            daysLeft: 12,
-            experienceLevel: "Experienced Professionals",
-            updatedDate: "Feb 19, 2025",
-            description:
-            "FNZ Group is looking for a Software Engineer to join our team!",
-            responsibilities: [
-                "Develop and maintain software applications",
-                "Collaborate with cross-functional teams",
-                "Write clean, maintainable code",
-            ],
-            requirements: [
-                "3+ years of software development experience",
-                "Strong problem-solving skills",
-                "Experience with modern development practices",
-            ],
-        },
-        {
-            id: 3,
-          title: "iOS Engineer",
-          company: "Target",
-          location: "Minneapolis",
-          logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-02-19%20014353-zaG5RwQO4GYC3sr6KQe8wIl5W3tHcy.png",
-          daysLeft: 16,
-          experienceLevel: "Experienced Professionals",
-          updatedDate: "Feb 19, 2025",
-          description:
-          "Join Target as an iOS Engineer and help build our next-generation mobile applications!",
-          responsibilities: [
-              "Build and maintain iOS applications",
-              "Implement new features and functionality",
-              "Optimize application performance",
-            ],
-            requirements: [
-                "Experience with Swift and iOS development",
-                "Understanding of iOS design principles",
-                "Knowledge of mobile app architecture",
-            ],
-        },
-    ];
+  const Job = [
+    {
+      id: 1,
+      title: "Frontend Developer",
+      company: "Mobzway Technology",
+      location: "Jaipur",
+      logo: "https://d8it4huxumps7.cloudfront.net/uploads/images/150x150/67b4d5ac9d3d9_organisation_image-hHSfpEjbjx1835853755AZHph7wtQ9.png?d=200x200",
+      daysLeft: 11,
+      experienceLevel: "Experienced Professionals",
+      updatedDate: "Feb 19, 2025",
+      description:
+        "Mobzway Technology is hiring for the role of Frontend Developer!",
+      responsibilities: [
+        "Implementing visual elements and their behaviors with user interactions",
+        "Work with both front-end and back-end web developers to build all client-side logic",
+        "Bridging the gap between the visual elements and the server-side infrastructure, taking an active role on both sides, and defining how the application looks and functions",
+      ],
+      requirements: [
+        "Strong understanding of JavaScript, its quirks, and workarounds",
+        "Practical HTML5, CSS, Node JavaScript experience",
+      ],
+    },
+    {
+      id: 2,
+      title: "Software Engineer",
+      company: "FNZ Group",
+      location: "Remote",
+      logo: "https://d8it4huxumps7.cloudfront.net/uploads/images/150x150/uploadedManual-67b4596335b91_download__17_.png?d=200x200",
+      daysLeft: 12,
+      experienceLevel: "Experienced Professionals",
+      updatedDate: "Feb 19, 2025",
+      description:
+        "FNZ Group is looking for a Software Engineer to join our team!",
+      responsibilities: [
+        "Develop and maintain software applications",
+        "Collaborate with cross-functional teams",
+        "Write clean, maintainable code",
+      ],
+      requirements: [
+        "3+ years of software development experience",
+        "Strong problem-solving skills",
+        "Experience with modern development practices",
+      ],
+    },
+    {
+      id: 3,
+      title: "iOS Engineer",
+      company: "Target",
+      location: "Minneapolis",
+      logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-02-19%20014353-zaG5RwQO4GYC3sr6KQe8wIl5W3tHcy.png",
+      daysLeft: 16,
+      experienceLevel: "Experienced Professionals",
+      updatedDate: "Feb 19, 2025",
+      description:
+        "Join Target as an iOS Engineer and help build our next-generation mobile applications!",
+      responsibilities: [
+        "Build and maintain iOS applications",
+        "Implement new features and functionality",
+        "Optimize application performance",
+      ],
+      requirements: [
+        "Experience with Swift and iOS development",
+        "Understanding of iOS design principles",
+        "Knowledge of mobile app architecture",
+      ],
+    },
+    {
+      id: 4,
+      title: "Frontend Developer",
+      company: "Mobzway Technology",
+      location: "Jaipur",
+      logo: "https://d8it4huxumps7.cloudfront.net/uploads/images/150x150/67b4d5ac9d3d9_organisation_image-hHSfpEjbjx1835853755AZHph7wtQ9.png?d=200x200",
+      daysLeft: 11,
+      experienceLevel: "Experienced Professionals",
+      updatedDate: "Feb 19, 2025",
+      description:
+        "Mobzway Technology is hiring for the role of Frontend Developer!",
+      responsibilities: [
+        "Implementing visual elements and their behaviors with user interactions",
+        "Work with both front-end and back-end web developers to build all client-side logic",
+        "Bridging the gap between the visual elements and the server-side infrastructure, taking an active role on both sides, and defining how the application looks and functions",
+      ],
+      requirements: [
+        "Strong understanding of JavaScript, its quirks, and workarounds",
+        "Practical HTML5, CSS, Node JavaScript experience",
+      ],
+    },
+    {
+      id: 5,
+      title: "Software Engineer",
+      company: "FNZ Group",
+      location: "Remote",
+      logo: "https://d8it4huxumps7.cloudfront.net/uploads/images/150x150/uploadedManual-67b4596335b91_download__17_.png?d=200x200",
+      daysLeft: 12,
+      experienceLevel: "Experienced Professionals",
+      updatedDate: "Feb 19, 2025",
+      description:
+        "FNZ Group is looking for a Software Engineer to join our team!",
+      responsibilities: [
+        "Develop and maintain software applications",
+        "Collaborate with cross-functional teams",
+        "Write clean, maintainable code",
+      ],
+      requirements: [
+        "3+ years of software development experience",
+        "Strong problem-solving skills",
+        "Experience with modern development practices",
+      ],
+    },
+    {
+      id: 6,
+      title: "iOS Engineer",
+      company: "Target",
+      location: "Minneapolis",
+      logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-02-19%20014353-zaG5RwQO4GYC3sr6KQe8wIl5W3tHcy.png",
+      daysLeft: 16,
+      experienceLevel: "Experienced Professionals",
+      updatedDate: "Feb 19, 2025",
+      description:
+        "Join Target as an iOS Engineer and help build our next-generation mobile applications!",
+      responsibilities: [
+        "Build and maintain iOS applications",
+        "Implement new features and functionality",
+        "Optimize application performance",
+      ],
+      requirements: [
+        "Experience with Swift and iOS development",
+        "Understanding of iOS design principles",
+        "Knowledge of mobile app architecture",
+      ],
+    },
+    {
+      id: 7,
+      title: "Frontend Developer",
+      company: "Mobzway Technology",
+      location: "Jaipur",
+      logo: "https://d8it4huxumps7.cloudfront.net/uploads/images/150x150/67b4d5ac9d3d9_organisation_image-hHSfpEjbjx1835853755AZHph7wtQ9.png?d=200x200",
+      daysLeft: 11,
+      experienceLevel: "Experienced Professionals",
+      updatedDate: "Feb 19, 2025",
+      description:
+        "Mobzway Technology is hiring for the role of Frontend Developer!",
+      responsibilities: [
+        "Implementing visual elements and their behaviors with user interactions",
+        "Work with both front-end and back-end web developers to build all client-side logic",
+        "Bridging the gap between the visual elements and the server-side infrastructure, taking an active role on both sides, and defining how the application looks and functions",
+      ],
+      requirements: [
+        "Strong understanding of JavaScript, its quirks, and workarounds",
+        "Practical HTML5, CSS, Node JavaScript experience",
+      ],
+    },
+    {
+      id: 8,
+      title: "Software Engineer",
+      company: "FNZ Group",
+      location: "Remote",
+      logo: "https://d8it4huxumps7.cloudfront.net/uploads/images/150x150/uploadedManual-67b4596335b91_download__17_.png?d=200x200",
+      daysLeft: 12,
+      experienceLevel: "Experienced Professionals",
+      updatedDate: "Feb 19, 2025",
+      description:
+        "FNZ Group is looking for a Software Engineer to join our team!",
+      responsibilities: [
+        "Develop and maintain software applications",
+        "Collaborate with cross-functional teams",
+        "Write clean, maintainable code",
+      ],
+      requirements: [
+        "3+ years of software development experience",
+        "Strong problem-solving skills",
+        "Experience with modern development practices",
+      ],
+    },
+    {
+      id: 9,
+      title: "iOS Engineer",
+      company: "Target",
+      location: "Minneapolis",
+      logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-02-19%20014353-zaG5RwQO4GYC3sr6KQe8wIl5W3tHcy.png",
+      daysLeft: 16,
+      experienceLevel: "Experienced Professionals",
+      updatedDate: "Feb 19, 2025",
+      description:
+        "Join Target as an iOS Engineer and help build our next-generation mobile applications!",
+      responsibilities: [
+        "Build and maintain iOS applications",
+        "Implement new features and functionality",
+        "Optimize application performance",
+      ],
+      requirements: [
+        "Experience with Swift and iOS development",
+        "Understanding of iOS design principles",
+        "Knowledge of mobile app architecture",
+      ],
+    },
+  ];
     
-    const [selectedJob, setSelectedJob] = useState();
+    const [selectedJob, setSelectedJob] = useState(null);
     const params = useParams();
     const [isApplied,setIsApplied] = useState(false)
 
     useEffect(()=>{
-        Job.filter((job)=> { job.id === params.id 
-            setSelectedJob(job)
-        })
+      const job = Job.find((job)=>  job.id === Number(params.id));
+      console.log(params.id)
+        console.log("job",job)
+        if (job) {
+            setSelectedJob(job);
+        } else {
+            console.error("Job not found");
+        }
     },[params.id])
     if (!selectedJob) {
         return <div>Loading...</div>;
     }
+
     return (
         <div>
         <div className=" max-w-7xl mx-auto rounded-lg border border-gray-200 bg-white p-6 px-3 md:px-20 ">

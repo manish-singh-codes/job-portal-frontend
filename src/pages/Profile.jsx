@@ -16,6 +16,7 @@ import {
   User,
 } from "lucide-react"
 
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -23,6 +24,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import UpdateProfile from "../components/UpdateProfile"
 
 // Color constants from the requirements
 const GREEN_COLOR = "#22C55E"
@@ -31,6 +33,7 @@ const BLUE_COLOR = "#3b82f6"
 
 const Profile = ()=> {
   const [activeTab, setActiveTab] = useState("overview")
+  const [open, setOpen] = useState(false);
 
   return (
     <div className="container mx-auto py-6 px-4 md:px-6">
@@ -52,7 +55,7 @@ const Profile = ()=> {
             </div>
 
             <div className="mt-6 w-full">
-              <Button className="w-full" style={{ backgroundColor: BLUE_COLOR }}>
+              <Button className="w-full" onClick ={()=>setOpen(true)} style={{ backgroundColor: BLUE_COLOR }}>
                 <Edit className="mr-2 h-4 w-4" /> Edit Profile
               </Button>
             </div>
@@ -846,6 +849,7 @@ const Profile = ()=> {
           </Card>
         </TabsContent>
       </Tabs>
+      <UpdateProfile open={open} setOpen={setOpen} />
     </div>
   )
 }
