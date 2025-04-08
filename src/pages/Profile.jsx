@@ -56,7 +56,7 @@ const Profile = ()=> {
 
             <div className="mt-6 w-full">
               <Button className="w-full" onClick ={()=>setOpen(true)} style={{ backgroundColor: BLUE_COLOR }}>
-                <Edit className="mr-2 h-4 w-4" /> Edit Profile
+                <Edit className="mr-2 h-4 w-4" /> Edit Your Profile
               </Button>
             </div>
 
