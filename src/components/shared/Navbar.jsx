@@ -28,7 +28,6 @@ const Navbar = () => {
         const res = await axiosInstance.get("/api/user/getUser", {
             withCredentials: true,
             });
-        console.log("as;fljaslfj",res.data);
         dispatch(setUser(res.data.user));
       } catch (error) {
         console.log(error);
