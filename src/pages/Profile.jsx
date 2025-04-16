@@ -9,6 +9,7 @@ import {
   Edit,
   FileText,
   GraduationCap,
+  Loader2,
   Mail,
   MapPin,
   Phone,
@@ -25,6 +26,8 @@ import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import UpdateProfile from "../components/UpdateProfile"
+import { useSelector } from "react-redux"
+
 
 // Color constants from the requirements
 const GREEN_COLOR = "#22C55E"
@@ -34,7 +37,15 @@ const BLUE_COLOR = "#3b82f6"
 const Profile = ()=> {
   const [activeTab, setActiveTab] = useState("overview")
   const [open, setOpen] = useState(false);
-
+  const {user} = useSelector((state)=>state.auth)
+  
+  if(!user){
+    return (
+      <div className="flex items-center justify-center h-96 text-lg font-semibold text-gray-500">
+        <Loader2 className="animate-spin mb-10 w-20 h-20 text-violet-700 " />
+      </div>
+    )
+  }
   return (
     <div className="container mx-auto py-6 px-4 md:px-6">
       {/* Profile Header */}
@@ -45,7 +56,7 @@ const Profile = ()=> {
               <AvatarImage src="/placeholder.svg?height=96&width=96" alt="User profile" />
               <AvatarFallback className="text-2xl">JD</AvatarFallback>
             </Avatar>
-            <h2 className="mt-4 text-2xl font-bold">John Doe</h2>
+            <h2 className="mt-4 text-2xl font-bold">{user.fullname}</h2>
             <p className="text-muted-foreground">Senior Software Engineer</p>
 
             <div className="mt-4 flex items-center justify-center space-x-2">
