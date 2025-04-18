@@ -26,7 +26,6 @@ const UpdateProfile = ({open,setOpen}) => {
     }
 
     const handleSubmit = async(e) => {
-        console.log("formData",formData)
         e.preventDefault();
         try {
             dispatch(setLoading(true));

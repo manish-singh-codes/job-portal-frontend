@@ -206,8 +206,6 @@ const JobDescription = () => {
 
     useEffect(()=>{
       const job = Job.find((job)=>  job.id === Number(params.id));
-      console.log(params.id)
-        console.log("job",job)
         if (job) {
             setSelectedJob(job);
         } else {
