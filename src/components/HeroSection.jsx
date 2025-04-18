@@ -17,7 +17,7 @@ const HeroSection = () => {
 
         <p className="text-gray-600 text-lg md:text-xl max-w-2xl mx-auto mb-10">
           Discover your next career move with confidence and ease. Connect with top recruiters, and take the next step
-          toward your professional success.
+          toward your professional success. 
         </p>
 
         <div className="flex items-center max-w-xl mx-auto bg-white shadow-lg border border-gray-200 rounded-full overflow-hidden">
