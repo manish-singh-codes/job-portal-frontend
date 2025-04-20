@@ -15,6 +15,7 @@ import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { useDispatch, useSelector } from "react-redux"
 import { setLoading } from "../../redux/authSlice"
+import OTPVerificationForm from "./otp-verification-form"
 
 const SignUp = () => {
   const { loading } = useSelector((state) => state.auth)
@@ -23,6 +24,7 @@ const SignUp = () => {
   const [profilePic, setProfilePic] = useState(null)
   const navigate = useNavigate()
   const [go, setGo] = useState(false)
+  const [showOtpVerification, setShowOtpVerification] = useState(false)
   const [input, setInput] = useState({
     fullname: "",
     email: "",
@@ -99,6 +101,7 @@ const SignUp = () => {
 
     try {
       dispatch(setLoading(true))
+      // Modified to request OTP instead of directly creating account
       const res = await axiosInstance.post("api/user/register", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -106,8 +109,8 @@ const SignUp = () => {
       })
 
       if (res.status === 200) {
-        toast.success("User Created Successfully")
-        navigate("/login")
+        toast.success("OTP sent to your email")
+        setShowOtpVerification(true)
       }
     } catch (error) {
       if (error.response?.status === 401) {
@@ -118,6 +121,28 @@ const SignUp = () => {
     } finally {
       dispatch(setLoading(false))
     }
+  }
+
+  const handleOtpSuccess = () => {
+    // Navigate to login page after successful verification
+    setTimeout(() => {
+      navigate("/login")
+    }, 1500)
+  }
+
+  if (showOtpVerification) {
+    return (
+      <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 py-8 px-4 sm:px-6 lg:py-12">
+        <ToastContainer position="bottom-right" autoClose={2000} />
+        <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
+          <OTPVerificationForm
+            email={input.email}
+            onBack={() => setShowOtpVerification(false)}
+            onSuccess={handleOtpSuccess}
+          />
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -395,4 +420,4 @@ const SignUp = () => {
   )
 }
 
-export default SignUp;
+export default SignUp
