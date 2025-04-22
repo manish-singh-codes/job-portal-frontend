@@ -38,7 +38,7 @@ const OTPVerificationForm = ({ email, onBack, onSuccess }) => {
   const verifyOtp = async () => {
     try {
       dispatch(setLoading(true));
-      const res = await axiosInstance.post("api/user/verify-otp", {
+      const res = await axiosInstance.post("api/user/verify", {
         email,
         otp,
       });
@@ -52,18 +52,25 @@ const OTPVerificationForm = ({ email, onBack, onSuccess }) => {
       }
     } catch (error) {
       if (error.response?.status === 401) {
-        toast.error("Invalid OTP. Please try again.");
+        toast.error(error.response.data.message);
       } else {
-        toast.error("Something went wrong. Please try again.");
+        toast.error("OTP Expired");
       }
     } finally {
       dispatch(setLoading(false));
     }
   };
 
-  const handleResendSuccess = () => {
+
+
+  const handleResendSuccess = async() => {
     setTimeLeft(300);
+    const res = await axiosInstance.post('/api/user/resend', email);
+
+    if(res.status === 200){
+      toast.success('OTP Sent Successfully');
     toast.success("OTP has been resent to your email.");
+    }
   };
 
   const REGEXP_ONLY_DIGITS = /^[0-9]+$/;
