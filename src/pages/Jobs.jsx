@@ -366,7 +366,7 @@ const Jobs = () => {
           </div>
 
           {/* Job Details */}
-          <div className=" h-[600px] overflow-y-scroll overscroll-contain hidden md:block rounded-lg border border-gray-200 bg-white p-6">
+          <div className=" h-[650px] overflow-y-scroll overscroll-contain hidden md:block rounded-lg border border-gray-200 bg-white p-6">
             <div className="flex items-start gap-4">
               <div className="h-16 w-16 flex-shrink-0 rounded-lg border">
                 <img

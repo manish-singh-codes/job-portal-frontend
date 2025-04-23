@@ -65,7 +65,7 @@ const OTPVerificationForm = ({ email, onBack, onSuccess }) => {
 
   const handleResendSuccess = async() => {
     setTimeLeft(300);
-    const res = await axiosInstance.post('/api/user/resend', email);
+    const res = await axiosInstance.post('/api/user/resend', {email});
 
     if(res.status === 200){
       toast.success('OTP Sent Successfully');
