@@ -321,7 +321,7 @@ const JobDescription = () => {
 
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">
-                  Responsibilities of the Candidate:
+                  Responsibilities of the Candidate :
                 </h3>
                 <ul className="mt-2 list-inside list-disc space-y-2 text-gray-600">
                   {selectedJob.responsibilities.map((responsibility, index) => (
