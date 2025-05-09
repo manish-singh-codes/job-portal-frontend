@@ -15,7 +15,7 @@ const HeroSection = () => {
           Search, Apply & <br className="md:hidden" /> Get Your <span className="text-indigo-500">Dream Job</span>
         </h1>
 
-        <p className="text-gray-600 text-lg md:text-xl max-w-2xl mx-auto mb-10">
+        <p className="text-gray-600 text-lg md:text-lg max-w-2xl mx-auto mb-10">
           Discover your next career move with confidence and ease. Connect with top recruiters, and take the next step
           toward your professional success. 
         </p>
