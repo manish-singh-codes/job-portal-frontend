@@ -111,6 +111,7 @@ const SignUp = () => {
       if (res.status === 200) {
         toast.success("OTP sent to your email")
         setShowOtpVerification(true)
+        setGo(false)
       }
     } catch (error) {
       if (error.response?.status === 401) {
