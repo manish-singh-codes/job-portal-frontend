@@ -327,7 +327,7 @@ const Jobs = () => {
               </div>
             </div>
             {/* Job List */}
-            <div className="h-4/5 space-y-4 overflow-y-scroll overscroll-contain ">
+            <div className="h-4/5 space-y-4 overflow-y-scroll overscroll-contain  ">
               {jobs.map((job) => (
                 <div
                   key={job.id}
