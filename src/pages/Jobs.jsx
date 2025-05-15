@@ -292,9 +292,9 @@ const Jobs = () => {
   }
 
   return (
-    <div className=" bg-gray-50 min-w-7xl mx-auto">
+    <div className=" bg-gray-50 min-w-7xl mx-auto h-screen flex flex-col">
       {/* Header */}
-      <header className="bg-whit border-b w-full overflow-x-scroll md:overflow-x-visible text-xs md:text-sm ">
+      <header className=" border-b w-full overflow-x-scroll md:overflow-x-visible text-xs md:text-sm ">
         <div className="container mx-auto py-4">
           <div className="flex items-center gap-4">
             <Button className=" bg-[#22C55E] hover:bg-green-600 text-white flex justify-between" options={locations} placeholder="none" >
@@ -310,9 +310,9 @@ const Jobs = () => {
       </header>
 
       {/* Main Content */}
-      <div className=" container mx-auto px-4 py-6">
+      <div className=" container mx-auto px-4 py-6 flex-1 overflow-y-auto">
         <div className=" grid grid-cols-[1fr] md:grid-cols-[1fr_2fr] h-full gap-6">
-          <div className=" h-[650px] ">
+          <div className="h-[50%]  ">
             {/* Search bar */}
             <div className="container mx-auto py-6">
               <div className="flex items-center justify-between">
@@ -327,7 +327,7 @@ const Jobs = () => {
               </div>
             </div>
             {/* Job List */}
-            <div className="h-3/4 space-y-4 overflow-y-scroll overscroll-contain ">
+            <div className="h-4/5 space-y-4 overflow-y-scroll overscroll-contain ">
               {jobs.map((job) => (
                 <div
                   key={job.id}
@@ -366,7 +366,7 @@ const Jobs = () => {
           </div>
 
           {/* Job Details */}
-          <div className=" h-[650px] overflow-y-scroll overscroll-contain hidden md:block rounded-lg border border-gray-200 bg-white p-6">
+          <div className=" h-[50%] overflow-y-scroll overscroll-contain hidden md:block rounded-lg border border-gray-200 bg-white p-6">
             <div className="flex items-start gap-4">
               <div className="h-16 w-16 flex-shrink-0 rounded-lg border">
                 <img

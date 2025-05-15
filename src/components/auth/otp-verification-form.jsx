@@ -20,7 +20,7 @@ const OTPVerificationForm = ({ email, onBack, onSuccess }) => {
   const { loading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [otp, setOtp] = useState("");
-  const [timeLeft, setTimeLeft] = useState(300);
+  const [timeLeft, setTimeLeft] = useState(5);
   const [isVerified, setIsVerified] = useState(false);
 
   const formatTime = (seconds) => {
@@ -64,7 +64,7 @@ const OTPVerificationForm = ({ email, onBack, onSuccess }) => {
 
 
   const handleResendSuccess = async() => {
-    setTimeLeft(300);
+    setTimeLeft(5);
     const res = await axiosInstance.post('/api/user/resend', {email});
 
     if(res.status === 200){
@@ -82,7 +82,7 @@ const OTPVerificationForm = ({ email, onBack, onSuccess }) => {
           <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
             <CheckCircle2 className="h-10 w-10 text-emerald-600" />
           </div>
-          <h2 className="text-2xl font-semibold text-gray-800 mb-2">You're Verified!</h2>
+          <h2 className="text-2xl font-semibold text-gray-800 mb-2">You are Verified!</h2>
           <p className="text-gray-600">Welcome to <span className="font-bold text-violet-600">JobNest</span> — your tech career starts here.</p>
         </div>
       ) : (
