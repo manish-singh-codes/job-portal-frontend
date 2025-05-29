@@ -121,7 +121,7 @@ const Navbar = () => {
                   >
                     <Avatar>
                       <AvatarImage
-                        src="https://github.com/shadcn.png"
+                        src={user.profile.profilePhoto}
                         alt="User profile"
                       />
                       <AvatarFallback>MS</AvatarFallback>
@@ -133,7 +133,7 @@ const Navbar = () => {
                     <div className="flex items-center gap-3 pb-3 border-b">
                       <Avatar className="h-10 w-10">
                         <AvatarImage
-                          src="https://github.com/shadcn.png"
+                          src={user?.profile?.profilePhoto}
                           alt="User profile"
                         />
                         <AvatarFallback>MS</AvatarFallback>
@@ -244,7 +244,7 @@ const Navbar = () => {
                       <div className="flex items-center gap-3 pb-4">
                         <Avatar>
                           <AvatarImage
-                            src="https://github.com/shadcn.png"
+                            src={user?.profile?.profilePhoto}
                             alt="User profile"
                           />
                           <AvatarFallback>MS</AvatarFallback>
@@ -255,13 +255,15 @@ const Navbar = () => {
                         </div>
                       </div>
                       <div className="space-y-1">
-                        <Button 
-                          variant="ghost" 
-                          className="w-full justify-start gap-2"
-                        >
-                          <User2 className="h-4 w-4" />
-                          View Profile
-                        </Button>
+                          <Button asChild 
+                        variant="ghost" 
+                        className="w-full justify-start gap-2 text-gray-600 hover:text-gray-900"
+                      >
+                        <Link to={'/profile'} >
+                        <User2 className="h-4 w-4" />
+                        View Profile
+                        </Link>
+                      </Button>
                         <Button 
                           variant="ghost" 
                           className="w-full justify-start gap-2"

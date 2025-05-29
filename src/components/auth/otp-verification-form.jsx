@@ -20,7 +20,7 @@ const OTPVerificationForm = ({ email, onBack, onSuccess }) => {
   const { loading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [otp, setOtp] = useState("");
-  const [timeLeft, setTimeLeft] = useState(5);
+  const [timeLeft, setTimeLeft] = useState(300);
   const [isVerified, setIsVerified] = useState(false);
 
   const formatTime = (seconds) => {
@@ -64,7 +64,7 @@ const OTPVerificationForm = ({ email, onBack, onSuccess }) => {
 
 
   const handleResendSuccess = async() => {
-    setTimeLeft(5);
+    setTimeLeft(300);
     const res = await axiosInstance.post('/api/user/resend', {email});
 
     if(res.status === 200){
