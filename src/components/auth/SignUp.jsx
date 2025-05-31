@@ -16,6 +16,7 @@ import "react-toastify/dist/ReactToastify.css"
 import { useDispatch, useSelector } from "react-redux"
 import { setLoading } from "../../redux/authSlice"
 import OTPVerificationForm from "./otp-verification-form"
+import GoogleLogin from "./GoogleLogin"
 
 const SignUp = () => {
   const { loading } = useSelector((state) => state.auth)
@@ -406,6 +407,12 @@ const SignUp = () => {
                   )}
                 </Button>
 
+                <div className="flex items-center gap-4 my-6">
+                  <Separator className="flex-1" />
+                  <span className="text-slate-500 text-sm">or</span>
+                  <Separator className="flex-1" />
+                </div>
+                <GoogleLogin/>
                 <p className="text-center text-slate-600 mt-6">
                   Already have an account?{" "}
                   <Link to="/login" className="text-violet-600 hover:underline font-medium">
