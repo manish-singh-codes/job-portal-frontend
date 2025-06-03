@@ -1,7 +1,6 @@
-import { Button } from "@/components/ui/button"
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
 import axiosInstance from "../../utils/axios/axiosInstance";
-import { useRef, useState } from "react";
+import {  useState } from "react";
 import { Users, Briefcase, X } from "lucide-react"
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -9,7 +8,6 @@ import { toast } from "sonner";
 
 
 const Google = () => {
-  const googleRef = useRef(null)
   const navigate = useNavigate();
   const [success, setSuccess] = useState(false)
   const [selectedRole, setSelectedRole] = useState("")
