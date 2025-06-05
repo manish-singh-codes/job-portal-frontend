@@ -17,8 +17,10 @@ import { useEffect } from "react";
 import axiosInstance from "../../utils/axios/axiosInstance";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/authSlice";
+import { useState } from "react";
 
 const Navbar = () => {
+  const [open, setOpen] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
@@ -37,6 +39,7 @@ const Navbar = () => {
   }, []);
 
   const handleLogout = async()=>{
+    setOpen(false)
     try {
       await axiosInstance.get("/api/user/logout", {
         withCredentials: true,
@@ -184,7 +187,7 @@ const Navbar = () => {
 
         {/* Mobile Navigation */}
         <div className="md:hidden">
-          <Sheet>
+          <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Menu className="h-6 w-6" />
@@ -194,7 +197,8 @@ const Navbar = () => {
               <div className="flex flex-col h-full">
                 <div className="space-y-4 py-4">
                   <Link 
-                    to="/" 
+                    to="/"
+                    onClick={()=>setOpen(false)} 
                     className="flex items-center gap-2 text-lg font-semibold"
                   >
                     <div className="relative w-8 h-7">
@@ -207,17 +211,20 @@ const Navbar = () => {
                   <div className="space-y-1">
                     <Link 
                       to="/" 
+                      onClick={()=>setOpen(false)}
                       className="block py-2 text-lg font-medium text-gray-600 hover:text-gray-900"
                     >
                       Home
                     </Link>
                     <Link 
+                    onClick={()=>setOpen(false)}
                       to="/jobs" 
                       className="block py-2 text-lg font-medium text-gray-600 hover:text-gray-900"
                     >
                       Jobs
                     </Link>
                     <Link 
+                    onClick={()=>setOpen(false)}
                       to="/contact" 
                       className="block py-2 text-lg font-medium text-gray-600 hover:text-gray-900"
                     >
@@ -228,12 +235,14 @@ const Navbar = () => {
                 <div className="mt-auto border-t py-4">
                   {!user ? (
                     <div className="grid gap-2">
-                      <Link to="/login">
+                      <Link to="/login" 
+                      onClick={()=>setOpen(false)} >
                         <Button variant="outline" className="w-full">
                           Login
                         </Button>
                       </Link>
-                      <Link to="/signup">
+                      <Link to="/signup"
+                      onClick={()=>setOpen(false)}>
                         <Button className="w-full bg-red-500 text-white hover:bg-red-600">
                           Sign Up
                         </Button>
@@ -259,7 +268,8 @@ const Navbar = () => {
                         variant="ghost" 
                         className="w-full justify-start gap-2 text-gray-600 hover:text-gray-900"
                       >
-                        <Link to={'/profile'} >
+                        <Link to={'/profile'}
+                        onClick={()=>setOpen(false)} >
                         <User2 className="h-4 w-4" />
                         View Profile
                         </Link>
@@ -279,6 +289,7 @@ const Navbar = () => {
                           Settings
                         </Button>
                         <Button 
+                          onClick={handleLogout}
                           variant="ghost" 
                           className="w-full justify-start gap-2 text-red-500 hover:text-red-600"
                         >

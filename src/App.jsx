@@ -8,6 +8,7 @@ import OfferBanner from "./components/shared/OfferBanner";
 import Jobs from "./pages/Jobs";
 import Profile from "./pages/Profile";
 import JobDescription from "./pages/JobDescription";
+import ProtectedRoute from "./components/PrivateRoute";
 function App() {
   return (
     <>
@@ -20,7 +21,9 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/jobs" element={<Jobs/>} />
           <Route path="/jobs/:id" element={<JobDescription/>} />
-          <Route path="/profile" element={<Profile/>} />
+          <Route  element={<ProtectedRoute />}>
+            <Route path="/profile" element={<Profile />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </>

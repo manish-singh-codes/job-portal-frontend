@@ -9,6 +9,8 @@ import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setUser } from "../../redux/authSlice";
 import axiosInstance from "../../utils/axios/axiosInstance";
+import { Separator } from "@/components/ui/separator";
+import GoogleLogin from "./GoogleLogin";
 
 const Login = () => {
   const { loading } = useSelector((state) => state.auth);
@@ -215,6 +217,12 @@ const Login = () => {
                     "Login"
                   )}
                 </Button>
+                 <div className="flex items-center gap-4 my-6">
+                  <Separator className="flex-1" />
+                  <span className="text-slate-500 text-sm">or</span>
+                  <Separator className="flex-1" />
+                </div>
+                <GoogleLogin/>
 
                 <p className="text-center text-slate-600 mt-6">
                   New here?{" "}

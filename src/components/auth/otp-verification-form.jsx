@@ -14,6 +14,7 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "../ui/input-otp";
+import PropTypes from "prop-types";
 
 const OTPVerificationForm = ({ email, onBack, onSuccess }) => {
   const { loading } = useSelector((state) => state.auth);
@@ -169,5 +170,11 @@ const OTPVerificationForm = ({ email, onBack, onSuccess }) => {
     </div>
   );
 };
+
+OTPVerificationForm.propTypes = {
+  email: PropTypes.string.isRequired,
+  onBack: PropTypes.func.isRequired,
+  onSuccess: PropTypes.func.isRequired
+}
 
 export default OTPVerificationForm;
