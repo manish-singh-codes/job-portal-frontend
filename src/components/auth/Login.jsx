@@ -67,6 +67,10 @@ const Login = () => {
         toast.error("Invalid Password");
       } else if (error.response?.status === 402) {
         toast.error("User Account does not exist with this role");
+      } else if (error.response?.status === 403) {
+        toast.error(error.response.data.message || "Access Denied");
+      } else {
+        toast.error("Something went wrong, please try again later");
       }
     } finally {
       dispatch(setLoading(false));
@@ -79,7 +83,7 @@ const Login = () => {
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 py-8 px-4 sm:px-6 lg:py-12">
-      <div className="w-full max-w-7xl flex flex-col lg:flex-row overflow-hidden rounded-2xl shadow-2xl">
+      <div className="w-full h-[50%] max-w-7xl flex flex-col lg:flex-row overflow-hidden rounded-2xl shadow-2xl">
         {/* Left panel - Branding */}
         <div className="hidden lg:block lg:w-2/5 bg-gradient-to-br from-violet-600 to-indigo-700 p-8 lg:p-12 text-white relative overflow-hidden">
           <div className="relative z-10 h-full flex flex-col">
@@ -155,6 +159,24 @@ const Login = () => {
                     </button>
                   </div>
                 </div>
+              </div>
+              <div className="flex justify-between mt-4">
+                <Button
+                  type="button"
+                  variant="link"
+                  className="text-sm text-violet-600 hover:underline"
+                  onClick={() => navigate("/forgot-password")}
+                >
+                  Forgot Password?
+                </Button>
+                <Button
+                  type="button"
+                  variant="link"
+                  className="text-sm text-violet-600 hover:underline ml-4"
+                  onClick={() => navigate("/verify")}
+                >
+                  Verify Account
+                </Button>
               </div>
 
               <div className="space-y-3">

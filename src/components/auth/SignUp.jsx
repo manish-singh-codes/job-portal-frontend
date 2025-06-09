@@ -10,12 +10,12 @@ import { Loader2, Upload, User, CheckCircle2, Code2, Briefcase, LucideCode } fro
 import { Link, useNavigate } from "react-router-dom"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Separator } from "@/components/ui/separator"
-import axiosInstance from "../../utils/axios/axiosInstance"
+import axiosInstance from "../../utils/axios/axiosInstance.js"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { useDispatch, useSelector } from "react-redux"
-import { setLoading } from "../../redux/authSlice"
-import OTPVerificationForm from "./otp-verification-form"
+import { setLoading } from "../../redux/authSlice.js"
+import OTPVerificationForm from "./otp-verification-form.jsx"
 import GoogleRegister from "./GoogleRegister.jsx"
 
 const SignUp = () => {

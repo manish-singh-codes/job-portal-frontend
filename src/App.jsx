@@ -9,6 +9,8 @@ import Jobs from "./pages/Jobs";
 import Profile from "./pages/Profile";
 import JobDescription from "./pages/JobDescription";
 import ProtectedRoute from "./components/PrivateRoute";
+import ResetPassword from "./components/auth/ResetPassword";
+import ForgotPassword from "./components/auth/ForgotPassword";
 function App() {
   return (
     <>
@@ -21,6 +23,8 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/jobs" element={<Jobs/>} />
           <Route path="/jobs/:id" element={<JobDescription/>} />
+          <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route  element={<ProtectedRoute />}>
             <Route path="/profile" element={<Profile />} />
           </Route>
