@@ -134,7 +134,7 @@ const SignUp = () => {
 
   if (showOtpVerification) {
     return (
-      <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 py-8 px-4 sm:px-6 lg:py-12">
+      <div className="min-h-screen w-full flex items-start justify-center bg-gradient-to-br from-slate-50 to-slate-100 py-8 px-4 sm:px-6 lg:py-12">
         <ToastContainer position="bottom-right" autoClose={2000} />
         <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
           <OTPVerificationForm
@@ -153,7 +153,7 @@ const SignUp = () => {
 
       <div className="w-full max-w-7xl flex flex-col lg:flex-row overflow-hidden rounded-2xl shadow-2xl">
         {/* Left panel - Tech-focused branding */}
-        <div className="hidden lg:block lg:w-2/5 bg-gradient-to-br from-violet-600 to-indigo-700 p-8 lg:p-12 text-white relative overflow-hidden">
+        <div className="hidden lg:block lg:w-2/5 bg-gradient-to-br from-violet-600 to-indigo-700 p-8 lg:p-12 text-white relative overflow-hidden ">
           {/* Background pattern */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-10 left-10 w-40 h-40 rounded-full border border-indigo-300"></div>

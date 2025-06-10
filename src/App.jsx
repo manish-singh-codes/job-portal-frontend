@@ -11,6 +11,7 @@ import JobDescription from "./pages/JobDescription";
 import ProtectedRoute from "./components/PrivateRoute";
 import ResetPassword from "./components/auth/ResetPassword";
 import ForgotPassword from "./components/auth/ForgotPassword";
+import VerifyAccount from "./components/auth/VerifyAccount";
 function App() {
   return (
     <>
@@ -25,6 +26,7 @@ function App() {
           <Route path="/jobs/:id" element={<JobDescription/>} />
           <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/verify-account" element={<VerifyAccount />} />
           <Route  element={<ProtectedRoute />}>
             <Route path="/profile" element={<Profile />} />
           </Route>
