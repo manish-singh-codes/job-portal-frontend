@@ -38,6 +38,9 @@ const Profile = ()=> {
   const [activeTab, setActiveTab] = useState("overview")
   const [open, setOpen] = useState(false);
   const {user} = useSelector((state)=>state.auth)
+  // State for editing the about section
+  const [isEditing, setIsEditing] = useState(false);
+  const [aboutText, setAboutText] = useState("");
   
   if(!user){
     return (
@@ -47,27 +50,26 @@ const Profile = ()=> {
     )
   }
   return (
-    <div className="container mx-auto py-6 px-4 md:px-6">
+    <div className="container mx-auto py-6 px-4 md:px-6 max-w-7xl">
       {/* Profile Header */}
       <div className="grid gap-6 md:grid-cols-[1fr_2fr] lg:grid-cols-[300px_1fr]">
         <Card className="border-none shadow-md">
           <CardContent className="p-6 flex flex-col items-center text-center">
-            <Avatar className="h-24 w-24 border-4" style={{ borderColor: BLUE_COLOR }}>
-              <AvatarImage src="/placeholder.svg?height=96&width=96" alt="User profile" />
+            <Avatar
+              className="h-24 w-24 border-4"
+              style={{ borderColor: BLUE_COLOR }}
+            >
+              <AvatarImage src={user.profile.profilePhoto} alt="User profile" />
               <AvatarFallback className="text-2xl">JD</AvatarFallback>
             </Avatar>
             <h2 className="mt-4 text-2xl font-bold">{user.fullname}</h2>
-            <p className="text-muted-foreground">Senior Software Engineer</p>
-
-            <div className="mt-4 flex items-center justify-center space-x-2">
-              <Badge className="px-3 py-1" style={{ backgroundColor: GREEN_COLOR }}>
-                Available
-              </Badge>
-            </div>
-
             <div className="mt-6 w-full">
-              <Button className="w-full" onClick ={()=>setOpen(true)} style={{ backgroundColor: BLUE_COLOR }}>
-                <Edit className="mr-2 h-4 w-4" /> Edit Your Profile 
+              <Button
+                className="w-full"
+                onClick={() => setOpen(true)}
+                style={{ backgroundColor: "#9933ff" }}
+              >
+                <Edit className="mr-2 h-4 w-4" /> Edit Your Profile
               </Button>
             </div>
 
@@ -97,16 +99,29 @@ const Profile = ()=> {
               </div>
             </CardHeader>
             <CardContent>
-              <Progress value={85} className="h-2" style={{ backgroundColor: "rgba(59, 130, 246, 0.2)" }}>
-                <div className="h-full" style={{ backgroundColor: BLUE_COLOR }}></div>
+              <Progress
+                value={85}
+                className="h-2"
+                style={{ backgroundColor: "rgba(59, 130, 246, 0.2)" }}
+              >
+                <div
+                  className="h-full"
+                  style={{ backgroundColor: BLUE_COLOR }}
+                ></div>
               </Progress>
               <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
                 <div className="flex items-center">
-                  <div className="h-2 w-2 rounded-full mr-2" style={{ backgroundColor: GREEN_COLOR }}></div>
+                  <div
+                    className="h-2 w-2 rounded-full mr-2"
+                    style={{ backgroundColor: GREEN_COLOR }}
+                  ></div>
                   <span>Completed</span>
                 </div>
                 <div className="flex items-center">
-                  <div className="h-2 w-2 rounded-full mr-2" style={{ backgroundColor: RED_COLOR }}></div>
+                  <div
+                    className="h-2 w-2 rounded-full mr-2"
+                    style={{ backgroundColor: RED_COLOR }}
+                  ></div>
                   <span>Missing Information</span>
                 </div>
               </div>
@@ -125,19 +140,28 @@ const Profile = ()=> {
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 <div className="text-center p-3 rounded-lg bg-muted">
-                  <p className="text-3xl font-bold" style={{ color: BLUE_COLOR }}>
+                  <p
+                    className="text-3xl font-bold"
+                    style={{ color: BLUE_COLOR }}
+                  >
                     12
                   </p>
                   <p className="text-sm text-muted-foreground">Applications</p>
                 </div>
                 <div className="text-center p-3 rounded-lg bg-muted">
-                  <p className="text-3xl font-bold" style={{ color: GREEN_COLOR }}>
+                  <p
+                    className="text-3xl font-bold"
+                    style={{ color: GREEN_COLOR }}
+                  >
                     4
                   </p>
                   <p className="text-sm text-muted-foreground">Interviews</p>
                 </div>
                 <div className="text-center p-3 rounded-lg bg-muted">
-                  <p className="text-3xl font-bold" style={{ color: RED_COLOR }}>
+                  <p
+                    className="text-3xl font-bold"
+                    style={{ color: RED_COLOR }}
+                  >
                     2
                   </p>
                   <p className="text-sm text-muted-foreground">Rejections</p>
@@ -149,7 +173,12 @@ const Profile = ()=> {
       </div>
 
       {/* Main Content Tabs */}
-      <Tabs defaultValue="overview" className="mt-8" value={activeTab} onValueChange={setActiveTab}>
+      <Tabs
+        defaultValue="overview"
+        className="mt-8"
+        value={activeTab}
+        onValueChange={setActiveTab}
+      >
         <TabsList className="grid grid-cols-4 w-full max-w-3xl">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="skills">Skills</TabsTrigger>
@@ -163,20 +192,25 @@ const Profile = ()=> {
             <CardHeader>
               <div className="flex justify-between items-center">
                 <CardTitle className="flex items-center">
-                  <User className="mr-2 h-5 w-5" style={{ color: BLUE_COLOR }} />
+                  <User
+                    className="mr-2 h-5 w-5"
+                    style={{ color: BLUE_COLOR }}
+                  />
                   About Me
                 </CardTitle>
-                <Button variant="ghost" size="sm">
+                <Button onClick={()=>setIsEditing(true)} variant="ghost" size="sm">
                   <Edit className="h-4 w-4" />
                 </Button>
               </div>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">
-                Experienced software engineer with over 8 years of experience in full-stack development. Passionate
-                about creating user-friendly applications and solving complex problems. Skilled in React, Node.js, and
-                cloud technologies. Looking for challenging opportunities in a forward-thinking company.
-              </p>
+              <textarea
+                className="w-full border rounded p-2 text-sm text-muted-foreground resize-none  focus:outline-violet-500 "
+                rows={5}
+                value={aboutText}
+                onChange={(e) => setAboutText(e.target.value)}
+                readOnly={!isEditing}
+              />
             </CardContent>
           </Card>
 
@@ -184,7 +218,10 @@ const Profile = ()=> {
             <CardHeader>
               <div className="flex justify-between items-center">
                 <CardTitle className="flex items-center">
-                  <Briefcase className="mr-2 h-5 w-5" style={{ color: BLUE_COLOR }} />
+                  <Briefcase
+                    className="mr-2 h-5 w-5"
+                    style={{ color: BLUE_COLOR }}
+                  />
                   Work Experience
                 </CardTitle>
                 <Button variant="ghost" size="sm">
@@ -198,13 +235,16 @@ const Profile = ()=> {
                   <h3 className="font-semibold">Senior Software Engineer</h3>
                   <div className="flex items-center">
                     <Calendar className="h-4 w-4 mr-1 text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground">2020 - Present</span>
+                    <span className="text-sm text-muted-foreground">
+                      2020 - Present
+                    </span>
                   </div>
                 </div>
                 <p className="text-sm font-medium">TechCorp Inc.</p>
                 <p className="text-sm text-muted-foreground">
-                  Led a team of 5 developers in building a cloud-based SaaS platform. Implemented CI/CD pipelines and
-                  microservices architecture.
+                  Led a team of 5 developers in building a cloud-based SaaS
+                  platform. Implemented CI/CD pipelines and microservices
+                  architecture.
                 </p>
               </div>
 
@@ -215,13 +255,16 @@ const Profile = ()=> {
                   <h3 className="font-semibold">Software Developer</h3>
                   <div className="flex items-center">
                     <Calendar className="h-4 w-4 mr-1 text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground">2017 - 2020</span>
+                    <span className="text-sm text-muted-foreground">
+                      2017 - 2020
+                    </span>
                   </div>
                 </div>
                 <p className="text-sm font-medium">InnovateSoft</p>
                 <p className="text-sm text-muted-foreground">
-                  Developed and maintained web applications using React and Node.js. Collaborated with UX designers to
-                  implement responsive designs.
+                  Developed and maintained web applications using React and
+                  Node.js. Collaborated with UX designers to implement
+                  responsive designs.
                 </p>
               </div>
             </CardContent>
@@ -236,7 +279,10 @@ const Profile = ()=> {
             <CardHeader>
               <div className="flex justify-between items-center">
                 <CardTitle className="flex items-center">
-                  <GraduationCap className="mr-2 h-5 w-5" style={{ color: BLUE_COLOR }} />
+                  <GraduationCap
+                    className="mr-2 h-5 w-5"
+                    style={{ color: BLUE_COLOR }}
+                  />
                   Education
                 </CardTitle>
                 <Button variant="ghost" size="sm">
@@ -250,12 +296,15 @@ const Profile = ()=> {
                   <h3 className="font-semibold">Master of Computer Science</h3>
                   <div className="flex items-center">
                     <Calendar className="h-4 w-4 mr-1 text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground">2015 - 2017</span>
+                    <span className="text-sm text-muted-foreground">
+                      2015 - 2017
+                    </span>
                   </div>
                 </div>
                 <p className="text-sm font-medium">Stanford University</p>
                 <p className="text-sm text-muted-foreground">
-                  Specialized in Artificial Intelligence and Machine Learning. GPA: 3.8/4.0
+                  Specialized in Artificial Intelligence and Machine Learning.
+                  GPA: 3.8/4.0
                 </p>
               </div>
 
@@ -263,15 +312,20 @@ const Profile = ()=> {
 
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <h3 className="font-semibold">Bachelor of Science in Computer Engineering</h3>
+                  <h3 className="font-semibold">
+                    Bachelor of Science in Computer Engineering
+                  </h3>
                   <div className="flex items-center">
                     <Calendar className="h-4 w-4 mr-1 text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground">2011 - 2015</span>
+                    <span className="text-sm text-muted-foreground">
+                      2011 - 2015
+                    </span>
                   </div>
                 </div>
                 <p className="text-sm font-medium">MIT</p>
                 <p className="text-sm text-muted-foreground">
-                  Your List for all semesters. Participated in hackathons and coding competitions. GPA: 3.9/4.0
+                  Your List for all semesters. Participated in hackathons and
+                  coding competitions. GPA: 3.9/4.0
                 </p>
               </div>
             </CardContent>
@@ -289,78 +343,139 @@ const Profile = ()=> {
                 </Button>
               </div>
               <CardDescription>
-                Add or update your technical skills to match with relevant job opportunities
+                Add or update your technical skills to match with relevant job
+                opportunities
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-sm font-medium mb-2">Programming Languages</h3>
+                  <h3 className="text-sm font-medium mb-2">
+                    Programming Languages
+                  </h3>
                   <div className="flex flex-wrap gap-2">
-                    <Badge className="px-3 py-1" style={{ backgroundColor: BLUE_COLOR }}>
+                    <Badge
+                      className="px-3 py-1"
+                      style={{ backgroundColor: BLUE_COLOR }}
+                    >
                       JavaScript
                     </Badge>
-                    <Badge className="px-3 py-1" style={{ backgroundColor: BLUE_COLOR }}>
+                    <Badge
+                      className="px-3 py-1"
+                      style={{ backgroundColor: BLUE_COLOR }}
+                    >
                       TypeScript
                     </Badge>
-                    <Badge className="px-3 py-1" style={{ backgroundColor: BLUE_COLOR }}>
+                    <Badge
+                      className="px-3 py-1"
+                      style={{ backgroundColor: BLUE_COLOR }}
+                    >
                       Python
                     </Badge>
-                    <Badge className="px-3 py-1" style={{ backgroundColor: BLUE_COLOR }}>
+                    <Badge
+                      className="px-3 py-1"
+                      style={{ backgroundColor: BLUE_COLOR }}
+                    >
                       Java
                     </Badge>
-                    <Badge className="px-3 py-1" style={{ backgroundColor: BLUE_COLOR }}>
+                    <Badge
+                      className="px-3 py-1"
+                      style={{ backgroundColor: BLUE_COLOR }}
+                    >
                       C++
                     </Badge>
-                    <Badge variant="outline" className="px-3 py-1 cursor-pointer">
+                    <Badge
+                      variant="outline"
+                      className="px-3 py-1 cursor-pointer"
+                    >
                       + Add
                     </Badge>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-medium mb-2">Frameworks & Libraries</h3>
+                  <h3 className="text-sm font-medium mb-2">
+                    Frameworks & Libraries
+                  </h3>
                   <div className="flex flex-wrap gap-2">
-                    <Badge className="px-3 py-1" style={{ backgroundColor: GREEN_COLOR }}>
+                    <Badge
+                      className="px-3 py-1"
+                      style={{ backgroundColor: GREEN_COLOR }}
+                    >
                       React
                     </Badge>
-                    <Badge className="px-3 py-1" style={{ backgroundColor: GREEN_COLOR }}>
+                    <Badge
+                      className="px-3 py-1"
+                      style={{ backgroundColor: GREEN_COLOR }}
+                    >
                       Node.js
                     </Badge>
-                    <Badge className="px-3 py-1" style={{ backgroundColor: GREEN_COLOR }}>
+                    <Badge
+                      className="px-3 py-1"
+                      style={{ backgroundColor: GREEN_COLOR }}
+                    >
                       Express
                     </Badge>
-                    <Badge className="px-3 py-1" style={{ backgroundColor: GREEN_COLOR }}>
+                    <Badge
+                      className="px-3 py-1"
+                      style={{ backgroundColor: GREEN_COLOR }}
+                    >
                       Next.js
                     </Badge>
-                    <Badge className="px-3 py-1" style={{ backgroundColor: GREEN_COLOR }}>
+                    <Badge
+                      className="px-3 py-1"
+                      style={{ backgroundColor: GREEN_COLOR }}
+                    >
                       Django
                     </Badge>
-                    <Badge variant="outline" className="px-3 py-1 cursor-pointer">
+                    <Badge
+                      variant="outline"
+                      className="px-3 py-1 cursor-pointer"
+                    >
                       + Add
                     </Badge>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-medium mb-2">Tools & Technologies</h3>
+                  <h3 className="text-sm font-medium mb-2">
+                    Tools & Technologies
+                  </h3>
                   <div className="flex flex-wrap gap-2">
-                    <Badge className="px-3 py-1" style={{ backgroundColor: BLUE_COLOR }}>
+                    <Badge
+                      className="px-3 py-1"
+                      style={{ backgroundColor: BLUE_COLOR }}
+                    >
                       Git
                     </Badge>
-                    <Badge className="px-3 py-1" style={{ backgroundColor: BLUE_COLOR }}>
+                    <Badge
+                      className="px-3 py-1"
+                      style={{ backgroundColor: BLUE_COLOR }}
+                    >
                       Docker
                     </Badge>
-                    <Badge className="px-3 py-1" style={{ backgroundColor: BLUE_COLOR }}>
+                    <Badge
+                      className="px-3 py-1"
+                      style={{ backgroundColor: BLUE_COLOR }}
+                    >
                       AWS
                     </Badge>
-                    <Badge className="px-3 py-1" style={{ backgroundColor: BLUE_COLOR }}>
+                    <Badge
+                      className="px-3 py-1"
+                      style={{ backgroundColor: BLUE_COLOR }}
+                    >
                       CI/CD
                     </Badge>
-                    <Badge className="px-3 py-1" style={{ backgroundColor: BLUE_COLOR }}>
+                    <Badge
+                      className="px-3 py-1"
+                      style={{ backgroundColor: BLUE_COLOR }}
+                    >
                       MongoDB
                     </Badge>
-                    <Badge variant="outline" className="px-3 py-1 cursor-pointer">
+                    <Badge
+                      variant="outline"
+                      className="px-3 py-1 cursor-pointer"
+                    >
                       + Add
                     </Badge>
                   </div>
@@ -385,8 +500,15 @@ const Profile = ()=> {
                     <span className="text-sm font-medium">Team Leadership</span>
                     <span className="text-sm">Expert</span>
                   </div>
-                  <Progress value={90} className="h-2" style={{ backgroundColor: "rgba(34, 197, 94, 0.2)" }}>
-                    <div className="h-full" style={{ backgroundColor: GREEN_COLOR }}></div>
+                  <Progress
+                    value={90}
+                    className="h-2"
+                    style={{ backgroundColor: "rgba(34, 197, 94, 0.2)" }}
+                  >
+                    <div
+                      className="h-full"
+                      style={{ backgroundColor: GREEN_COLOR }}
+                    ></div>
                   </Progress>
                 </div>
 
@@ -395,8 +517,15 @@ const Profile = ()=> {
                     <span className="text-sm font-medium">Problem Solving</span>
                     <span className="text-sm">Expert</span>
                   </div>
-                  <Progress value={95} className="h-2" style={{ backgroundColor: "rgba(34, 197, 94, 0.2)" }}>
-                    <div className="h-full" style={{ backgroundColor: GREEN_COLOR }}></div>
+                  <Progress
+                    value={95}
+                    className="h-2"
+                    style={{ backgroundColor: "rgba(34, 197, 94, 0.2)" }}
+                  >
+                    <div
+                      className="h-full"
+                      style={{ backgroundColor: GREEN_COLOR }}
+                    ></div>
                   </Progress>
                 </div>
 
@@ -405,8 +534,15 @@ const Profile = ()=> {
                     <span className="text-sm font-medium">Communication</span>
                     <span className="text-sm">Advanced</span>
                   </div>
-                  <Progress value={85} className="h-2" style={{ backgroundColor: "rgba(34, 197, 94, 0.2)" }}>
-                    <div className="h-full" style={{ backgroundColor: GREEN_COLOR }}></div>
+                  <Progress
+                    value={85}
+                    className="h-2"
+                    style={{ backgroundColor: "rgba(34, 197, 94, 0.2)" }}
+                  >
+                    <div
+                      className="h-full"
+                      style={{ backgroundColor: GREEN_COLOR }}
+                    ></div>
                   </Progress>
                 </div>
 
@@ -415,8 +551,15 @@ const Profile = ()=> {
                     <span className="text-sm font-medium">Time Management</span>
                     <span className="text-sm">Advanced</span>
                   </div>
-                  <Progress value={80} className="h-2" style={{ backgroundColor: "rgba(34, 197, 94, 0.2)" }}>
-                    <div className="h-full" style={{ backgroundColor: GREEN_COLOR }}></div>
+                  <Progress
+                    value={80}
+                    className="h-2"
+                    style={{ backgroundColor: "rgba(34, 197, 94, 0.2)" }}
+                  >
+                    <div
+                      className="h-full"
+                      style={{ backgroundColor: GREEN_COLOR }}
+                    ></div>
                   </Progress>
                 </div>
               </div>
@@ -436,8 +579,12 @@ const Profile = ()=> {
               <div className="space-y-4">
                 <div className="flex justify-between items-center p-3 rounded-lg border">
                   <div>
-                    <h3 className="font-medium">AWS Certified Solutions Architect</h3>
-                    <p className="text-sm text-muted-foreground">Amazon Web Services</p>
+                    <h3 className="font-medium">
+                      AWS Certified Solutions Architect
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      Amazon Web Services
+                    </p>
                   </div>
                   <div className="flex items-center text-sm text-muted-foreground">
                     <Calendar className="h-4 w-4 mr-1" />
@@ -447,8 +594,12 @@ const Profile = ()=> {
 
                 <div className="flex justify-between items-center p-3 rounded-lg border">
                   <div>
-                    <h3 className="font-medium">Google Cloud Professional Developer</h3>
-                    <p className="text-sm text-muted-foreground">Google Cloud</p>
+                    <h3 className="font-medium">
+                      Google Cloud Professional Developer
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      Google Cloud
+                    </p>
                   </div>
                   <div className="flex items-center text-sm text-muted-foreground">
                     <Calendar className="h-4 w-4 mr-1" />
@@ -459,7 +610,9 @@ const Profile = ()=> {
                 <div className="flex justify-between items-center p-3 rounded-lg border">
                   <div>
                     <h3 className="font-medium">Certified Scrum Master</h3>
-                    <p className="text-sm text-muted-foreground">Scrum Alliance</p>
+                    <p className="text-sm text-muted-foreground">
+                      Scrum Alliance
+                    </p>
                   </div>
                   <div className="flex items-center text-sm text-muted-foreground">
                     <Calendar className="h-4 w-4 mr-1" />
@@ -491,25 +644,40 @@ const Profile = ()=> {
                   </Button>
                 </div>
               </div>
-              <CardDescription>Track the status of your job applications</CardDescription>
+              <CardDescription>
+                Track the status of your job applications
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div className="p-4 rounded-lg border hover:shadow-md transition-shadow">
                   <div className="flex justify-between items-start">
                     <div>
-                      <h3 className="font-semibold">Senior Frontend Developer</h3>
-                      <p className="text-sm">TechGiant Inc. • San Francisco, CA</p>
+                      <h3 className="font-semibold">
+                        Senior Frontend Developer
+                      </h3>
+                      <p className="text-sm">
+                        TechGiant Inc. • San Francisco, CA
+                      </p>
                     </div>
-                    <Badge style={{ backgroundColor: GREEN_COLOR }}>Interview</Badge>
+                    <Badge style={{ backgroundColor: GREEN_COLOR }}>
+                      Interview
+                    </Badge>
                   </div>
                   <div className="mt-4">
                     <div className="flex justify-between text-sm text-muted-foreground mb-2">
                       <span>Application Progress</span>
                       <span>3/5 steps</span>
                     </div>
-                    <Progress value={60} className="h-2" style={{ backgroundColor: "rgba(34, 197, 94, 0.2)" }}>
-                      <div className="h-full" style={{ backgroundColor: GREEN_COLOR }}></div>
+                    <Progress
+                      value={60}
+                      className="h-2"
+                      style={{ backgroundColor: "rgba(34, 197, 94, 0.2)" }}
+                    >
+                      <div
+                        className="h-full"
+                        style={{ backgroundColor: GREEN_COLOR }}
+                      ></div>
                     </Progress>
                   </div>
                   <div className="mt-4 flex justify-between items-center">
@@ -517,7 +685,11 @@ const Profile = ()=> {
                       <Calendar className="h-4 w-4 mr-1" />
                       <span>Applied: May 15, 2023</span>
                     </div>
-                    <Button variant="ghost" size="sm" className="flex items-center gap-1">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="flex items-center gap-1"
+                    >
                       View Details <ChevronRight className="h-4 w-4" />
                     </Button>
                   </div>
@@ -529,15 +701,24 @@ const Profile = ()=> {
                       <h3 className="font-semibold">Full Stack Engineer</h3>
                       <p className="text-sm">StartupXYZ • Remote</p>
                     </div>
-                    <Badge style={{ backgroundColor: BLUE_COLOR }}>Applied</Badge>
+                    <Badge style={{ backgroundColor: BLUE_COLOR }}>
+                      Applied
+                    </Badge>
                   </div>
                   <div className="mt-4">
                     <div className="flex justify-between text-sm text-muted-foreground mb-2">
                       <span>Application Progress</span>
                       <span>1/5 steps</span>
                     </div>
-                    <Progress value={20} className="h-2" style={{ backgroundColor: "rgba(59, 130, 246, 0.2)" }}>
-                      <div className="h-full" style={{ backgroundColor: BLUE_COLOR }}></div>
+                    <Progress
+                      value={20}
+                      className="h-2"
+                      style={{ backgroundColor: "rgba(59, 130, 246, 0.2)" }}
+                    >
+                      <div
+                        className="h-full"
+                        style={{ backgroundColor: BLUE_COLOR }}
+                      ></div>
                     </Progress>
                   </div>
                   <div className="mt-4 flex justify-between items-center">
@@ -545,7 +726,11 @@ const Profile = ()=> {
                       <Calendar className="h-4 w-4 mr-1" />
                       <span>Applied: May 20, 2023</span>
                     </div>
-                    <Button variant="ghost" size="sm" className="flex items-center gap-1">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="flex items-center gap-1"
+                    >
                       View Details <ChevronRight className="h-4 w-4" />
                     </Button>
                   </div>
@@ -555,17 +740,28 @@ const Profile = ()=> {
                   <div className="flex justify-between items-start">
                     <div>
                       <h3 className="font-semibold">DevOps Engineer</h3>
-                      <p className="text-sm">CloudSolutions Ltd. • New York, NY</p>
+                      <p className="text-sm">
+                        CloudSolutions Ltd. • New York, NY
+                      </p>
                     </div>
-                    <Badge style={{ backgroundColor: RED_COLOR }}>Rejected</Badge>
+                    <Badge style={{ backgroundColor: RED_COLOR }}>
+                      Rejected
+                    </Badge>
                   </div>
                   <div className="mt-4">
                     <div className="flex justify-between text-sm text-muted-foreground mb-2">
                       <span>Application Progress</span>
                       <span>2/5 steps</span>
                     </div>
-                    <Progress value={40} className="h-2" style={{ backgroundColor: "rgba(239, 68, 68, 0.2)" }}>
-                      <div className="h-full" style={{ backgroundColor: RED_COLOR }}></div>
+                    <Progress
+                      value={40}
+                      className="h-2"
+                      style={{ backgroundColor: "rgba(239, 68, 68, 0.2)" }}
+                    >
+                      <div
+                        className="h-full"
+                        style={{ backgroundColor: RED_COLOR }}
+                      ></div>
                     </Progress>
                   </div>
                   <div className="mt-4 flex justify-between items-center">
@@ -573,7 +769,11 @@ const Profile = ()=> {
                       <Calendar className="h-4 w-4 mr-1" />
                       <span>Applied: May 5, 2023</span>
                     </div>
-                    <Button variant="ghost" size="sm" className="flex items-center gap-1">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="flex items-center gap-1"
+                    >
                       View Details <ChevronRight className="h-4 w-4" />
                     </Button>
                   </div>
@@ -585,15 +785,24 @@ const Profile = ()=> {
                       <h3 className="font-semibold">Software Engineer II</h3>
                       <p className="text-sm">InnoTech • Austin, TX</p>
                     </div>
-                    <Badge style={{ backgroundColor: GREEN_COLOR }}>Final Interview</Badge>
+                    <Badge style={{ backgroundColor: GREEN_COLOR }}>
+                      Final Interview
+                    </Badge>
                   </div>
                   <div className="mt-4">
                     <div className="flex justify-between text-sm text-muted-foreground mb-2">
                       <span>Application Progress</span>
                       <span>4/5 steps</span>
                     </div>
-                    <Progress value={80} className="h-2" style={{ backgroundColor: "rgba(34, 197, 94, 0.2)" }}>
-                      <div className="h-full" style={{ backgroundColor: GREEN_COLOR }}></div>
+                    <Progress
+                      value={80}
+                      className="h-2"
+                      style={{ backgroundColor: "rgba(34, 197, 94, 0.2)" }}
+                    >
+                      <div
+                        className="h-full"
+                        style={{ backgroundColor: GREEN_COLOR }}
+                      ></div>
                     </Progress>
                   </div>
                   <div className="mt-4 flex justify-between items-center">
@@ -601,7 +810,11 @@ const Profile = ()=> {
                       <Calendar className="h-4 w-4 mr-1" />
                       <span>Applied: April 28, 2023</span>
                     </div>
-                    <Button variant="ghost" size="sm" className="flex items-center gap-1">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="flex items-center gap-1"
+                    >
                       View Details <ChevronRight className="h-4 w-4" />
                     </Button>
                   </div>
@@ -618,30 +831,46 @@ const Profile = ()=> {
           <Card className="border-none shadow-md mt-6">
             <CardHeader>
               <CardTitle>Application Insights</CardTitle>
-              <CardDescription>Statistics and insights about your job applications</CardDescription>
+              <CardDescription>
+                Statistics and insights about your job applications
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="text-center p-4 rounded-lg bg-muted">
-                  <p className="text-3xl font-bold" style={{ color: BLUE_COLOR }}>
+                  <p
+                    className="text-3xl font-bold"
+                    style={{ color: BLUE_COLOR }}
+                  >
                     12
                   </p>
-                  <p className="text-sm text-muted-foreground">Total Applications</p>
+                  <p className="text-sm text-muted-foreground">
+                    Total Applications
+                  </p>
                 </div>
                 <div className="text-center p-4 rounded-lg bg-muted">
-                  <p className="text-3xl font-bold" style={{ color: GREEN_COLOR }}>
+                  <p
+                    className="text-3xl font-bold"
+                    style={{ color: GREEN_COLOR }}
+                  >
                     4
                   </p>
                   <p className="text-sm text-muted-foreground">Interviews</p>
                 </div>
                 <div className="text-center p-4 rounded-lg bg-muted">
-                  <p className="text-3xl font-bold" style={{ color: RED_COLOR }}>
+                  <p
+                    className="text-3xl font-bold"
+                    style={{ color: RED_COLOR }}
+                  >
                     2
                   </p>
                   <p className="text-sm text-muted-foreground">Rejections</p>
                 </div>
                 <div className="text-center p-4 rounded-lg bg-muted">
-                  <p className="text-3xl font-bold" style={{ color: BLUE_COLOR }}>
+                  <p
+                    className="text-3xl font-bold"
+                    style={{ color: BLUE_COLOR }}
+                  >
                     6
                   </p>
                   <p className="text-sm text-muted-foreground">Pending</p>
@@ -649,7 +878,9 @@ const Profile = ()=> {
               </div>
 
               <div className="mt-6">
-                <h3 className="text-sm font-medium mb-2">Application Timeline</h3>
+                <h3 className="text-sm font-medium mb-2">
+                  Application Timeline
+                </h3>
                 <div className="relative pt-6">
                   <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-muted ml-2.5"></div>
 
@@ -661,8 +892,12 @@ const Profile = ()=> {
                       <div className="w-2 h-2 rounded-full bg-white"></div>
                     </div>
                     <div className="text-sm">
-                      <p className="font-medium">Interview Scheduled: TechGiant Inc.</p>
-                      <p className="text-muted-foreground">May 25, 2023 at 2:00 PM</p>
+                      <p className="font-medium">
+                        Interview Scheduled: TechGiant Inc.
+                      </p>
+                      <p className="text-muted-foreground">
+                        May 25, 2023 at 2:00 PM
+                      </p>
                     </div>
                   </div>
 
@@ -674,7 +909,9 @@ const Profile = ()=> {
                       <div className="w-2 h-2 rounded-full bg-white"></div>
                     </div>
                     <div className="text-sm">
-                      <p className="font-medium">Application Submitted: StartupXYZ</p>
+                      <p className="font-medium">
+                        Application Submitted: StartupXYZ
+                      </p>
                       <p className="text-muted-foreground">May 20, 2023</p>
                     </div>
                   </div>
@@ -688,7 +925,9 @@ const Profile = ()=> {
                     </div>
                     <div className="text-sm">
                       <p className="font-medium">Final Interview: InnoTech</p>
-                      <p className="text-muted-foreground">May 18, 2023 at 10:00 AM</p>
+                      <p className="text-muted-foreground">
+                        May 18, 2023 at 10:00 AM
+                      </p>
                     </div>
                   </div>
 
@@ -700,7 +939,9 @@ const Profile = ()=> {
                       <div className="w-2 h-2 rounded-full bg-white"></div>
                     </div>
                     <div className="text-sm">
-                      <p className="font-medium">Application Rejected: CloudSolutions Ltd.</p>
+                      <p className="font-medium">
+                        Application Rejected: CloudSolutions Ltd.
+                      </p>
                       <p className="text-muted-foreground">May 12, 2023</p>
                     </div>
                   </div>
@@ -720,18 +961,27 @@ const Profile = ()=> {
                   <Plus className="mr-2 h-4 w-4" /> Upload New Resume
                 </Button>
               </div>
-              <CardDescription>Manage your uploaded resumes and cover letters</CardDescription>
+              <CardDescription>
+                Manage your uploaded resumes and cover letters
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div className="flex justify-between items-center p-4 rounded-lg border hover:shadow-md transition-shadow">
                   <div className="flex items-center">
                     <div className="p-2 rounded-lg bg-muted mr-4">
-                      <FileText className="h-8 w-8" style={{ color: BLUE_COLOR }} />
+                      <FileText
+                        className="h-8 w-8"
+                        style={{ color: BLUE_COLOR }}
+                      />
                     </div>
                     <div>
-                      <h3 className="font-medium">Software_Engineer_Resume.pdf</h3>
-                      <p className="text-sm text-muted-foreground">Uploaded on May 1, 2023 • 2.4 MB</p>
+                      <h3 className="font-medium">
+                        Software_Engineer_Resume.pdf
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        Uploaded on May 1, 2023 • 2.4 MB
+                      </p>
                     </div>
                   </div>
                   <div className="flex gap-2">
@@ -747,11 +997,18 @@ const Profile = ()=> {
                 <div className="flex justify-between items-center p-4 rounded-lg border hover:shadow-md transition-shadow">
                   <div className="flex items-center">
                     <div className="p-2 rounded-lg bg-muted mr-4">
-                      <FileText className="h-8 w-8" style={{ color: BLUE_COLOR }} />
+                      <FileText
+                        className="h-8 w-8"
+                        style={{ color: BLUE_COLOR }}
+                      />
                     </div>
                     <div>
-                      <h3 className="font-medium">Frontend_Developer_Resume.pdf</h3>
-                      <p className="text-sm text-muted-foreground">Uploaded on April 15, 2023 • 1.8 MB</p>
+                      <h3 className="font-medium">
+                        Frontend_Developer_Resume.pdf
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        Uploaded on April 15, 2023 • 1.8 MB
+                      </p>
                     </div>
                   </div>
                   <div className="flex gap-2">
@@ -767,11 +1024,18 @@ const Profile = ()=> {
                 <div className="flex justify-between items-center p-4 rounded-lg border hover:shadow-md transition-shadow">
                   <div className="flex items-center">
                     <div className="p-2 rounded-lg bg-muted mr-4">
-                      <FileText className="h-8 w-8" style={{ color: BLUE_COLOR }} />
+                      <FileText
+                        className="h-8 w-8"
+                        style={{ color: BLUE_COLOR }}
+                      />
                     </div>
                     <div>
-                      <h3 className="font-medium">Cover_Letter_Template.docx</h3>
-                      <p className="text-sm text-muted-foreground">Uploaded on March 20, 2023 • 0.9 MB</p>
+                      <h3 className="font-medium">
+                        Cover_Letter_Template.docx
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        Uploaded on March 20, 2023 • 0.9 MB
+                      </p>
                     </div>
                   </div>
                   <div className="flex gap-2">
@@ -790,25 +1054,35 @@ const Profile = ()=> {
           <Card className="border-none shadow-md mt-6">
             <CardHeader>
               <CardTitle>Resume Builder</CardTitle>
-              <CardDescription>Create a professional resume tailored to your target job</CardDescription>
+              <CardDescription>
+                Create a professional resume tailored to your target job
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid gap-6">
                 <div className="p-6 rounded-lg bg-muted flex flex-col items-center text-center">
-                  <FileText className="h-12 w-12 mb-4" style={{ color: BLUE_COLOR }} />
-                  <h3 className="text-lg font-medium mb-2">Create a New Resume</h3>
+                  <FileText
+                    className="h-12 w-12 mb-4"
+                    style={{ color: BLUE_COLOR }}
+                  />
+                  <h3 className="text-lg font-medium mb-2">
+                    Create a New Resume
+                  </h3>
                   <p className="text-sm text-muted-foreground mb-4">
-                    Our AI-powered resume builder will help you create a professional resume tailored to your target
-                    job.
+                    Our AI-powered resume builder will help you create a
+                    professional resume tailored to your target job.
                   </p>
-                  <Button style={{ backgroundColor: BLUE_COLOR }}>Start Building</Button>
+                  <Button style={{ backgroundColor: BLUE_COLOR }}>
+                    Start Building
+                  </Button>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="p-4 rounded-lg border">
                     <h3 className="font-medium mb-2">Resume Templates</h3>
                     <p className="text-sm text-muted-foreground mb-4">
-                      Choose from our collection of professional resume templates.
+                      Choose from our collection of professional resume
+                      templates.
                     </p>
                     <Button variant="outline" className="w-full">
                       Browse Templates
@@ -818,7 +1092,8 @@ const Profile = ()=> {
                   <div className="p-4 rounded-lg border">
                     <h3 className="font-medium mb-2">Resume Review</h3>
                     <p className="text-sm text-muted-foreground mb-4">
-                      Get expert feedback on your resume to improve your chances.
+                      Get expert feedback on your resume to improve your
+                      chances.
                     </p>
                     <Button variant="outline" className="w-full">
                       Request Review
@@ -838,21 +1113,24 @@ const Profile = ()=> {
                 <div className="p-4 rounded-lg bg-muted">
                   <h3 className="font-medium mb-2">Tailor Your Resume</h3>
                   <p className="text-sm text-muted-foreground">
-                    Customize your resume for each job application by highlighting relevant skills and experiences.
+                    Customize your resume for each job application by
+                    highlighting relevant skills and experiences.
                   </p>
                 </div>
 
                 <div className="p-4 rounded-lg bg-muted">
                   <h3 className="font-medium mb-2">Use Keywords</h3>
                   <p className="text-sm text-muted-foreground">
-                    Include industry-specific keywords to pass through Applicant Tracking Systems (ATS).
+                    Include industry-specific keywords to pass through Applicant
+                    Tracking Systems (ATS).
                   </p>
                 </div>
 
                 <div className="p-4 rounded-lg bg-muted">
                   <h3 className="font-medium mb-2">Quantify Achievements</h3>
                   <p className="text-sm text-muted-foreground">
-                    Use numbers and percentages to demonstrate the impact of your work.
+                    Use numbers and percentages to demonstrate the impact of
+                    your work.
                   </p>
                 </div>
               </div>
@@ -862,7 +1140,7 @@ const Profile = ()=> {
       </Tabs>
       <UpdateProfile open={open} setOpen={setOpen} />
     </div>
-  )
+  );
 }
 
 export default Profile

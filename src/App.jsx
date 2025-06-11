@@ -12,7 +12,33 @@ import ProtectedRoute from "./components/PrivateRoute";
 import ResetPassword from "./components/auth/ResetPassword";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import VerifyAccount from "./components/auth/VerifyAccount";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading, setUser } from "./redux/authSlice";
+import { useEffect } from "react";
+import axiosInstance from "./utils/axios/axiosInstance";
+import { LoaderCircle } from "lucide-react";
 function App() {
+  
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    const getUser = async () => {
+      dispatch(setLoading(true));
+      try {
+        const res = await axiosInstance.get("/api/user/getUser", {
+          withCredentials: true,
+        });
+        dispatch(setUser(res.data.user));
+      } catch (error) {
+        dispatch(setUser(null));
+      } finally {
+        dispatch(setLoading(false));
+      }
+    };
+    getUser();
+  }, [dispatch]);
+
   return (
     <>
       <BrowserRouter>

@@ -16,27 +16,12 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import axiosInstance from "../../utils/axios/axiosInstance";
 import { useDispatch } from "react-redux";
-import { setUser } from "../../redux/authSlice";
+import { setLoading, setUser } from "../../redux/authSlice";
 import { useState } from "react";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const { user } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-     const getUser = async () => {
-      try {
-        const res = await axiosInstance.get("/api/user/getUser", {
-            withCredentials: true,
-            });
-        dispatch(setUser(res.data.user));
-      } catch (error) {
-        console.log(error);
-      }
-     }
-     getUser();
-  }, []);
 
   const handleLogout = async()=>{
     setOpen(false)
@@ -53,15 +38,13 @@ const Navbar = () => {
 
   return (
     <header className="bg-white sticky top-0 z-50 border-b shadow-sm w-full">
-      <nav className="flex h-16 items-center justify-between mx-auto  px-4 sm:px-6 lg:px-8">
+      <nav className="flex h-16 max-w-7xl items-center justify-between mx-auto  px-4 sm:px-6 lg:px-8">
         {/* Logo */}
          <div className="flex items-center gap-3 ">
-                <div className="relative w-10 h-10">
-                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-5 h-5 rounded-full bg-cyan-400 opacity-90 z-30"></div>
-                  <div className="absolute bottom-0 left-0 w-5 h-5 rounded-full bg-violet-400 opacity-90 z-20"></div>
-                  <div className="absolute bottom-0 right-0 w-5 h-5 rounded-full bg-indigo-300 opacity-90 z-10"></div>
+                <div className="relative w-100 h-10">
+                  <img className=" w-full h-full" src="/src/assets/logo.png" alt="" />
                 </div>
-                <h1 className="text-3xl font-bold">JobNest</h1>
+               
               </div>
 
         {/* Desktop Navigation */}
