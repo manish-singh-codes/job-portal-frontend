@@ -17,7 +17,6 @@ import {
   User,
 } from "lucide-react"
 
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -26,29 +25,79 @@ import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import UpdateProfile from "../components/UpdateProfile"
-import { useSelector } from "react-redux"
-
+import { useDispatch, useSelector } from "react-redux"
+import { toast } from "sonner"
+import axiosInstance from "../utils/axios/axiosInstance"
+import { setUser } from "../redux/authSlice"
 
 // Color constants from the requirements
 const GREEN_COLOR = "#22C55E"
 const RED_COLOR = "#ef4444"
 const BLUE_COLOR = "#3b82f6"
 
-const Profile = ()=> {
+const Profile = () => {
   const [activeTab, setActiveTab] = useState("overview")
-  const [open, setOpen] = useState(false);
-  const {user} = useSelector((state)=>state.auth)
+  const [open, setOpen] = useState(false)
+  const { user } = useSelector((state) => state.auth)
+  const dispatch = useDispatch()
   // State for editing the about section
-  const [isEditing, setIsEditing] = useState(false);
-  const [aboutText, setAboutText] = useState("");
-  
-  if(!user){
-    return (
-      <div className="flex items-center justify-center h-96 text-lg font-semibold text-gray-500">
-        <Loader2 className="animate-spin mb-10 w-20 h-20 text-violet-700 " />
-      </div>
-    )
+  const [isEditing, setIsEditing] = useState(false)
+  const [formData, setFormData] = useState({
+    bio: user?.profile?.bio || "",
+    workExperience: user?.workExperience || [],
+    education: user?.overView?.education || [],
+    technicalSkills: user?.overView?.technicalSkills || [],
+    softSkills: user?.overView?.softSkills || [],
+    certifications: user?.overView?.certifications || [],
+    resume: user?.profile?.resume || "",
+    resumeOriginalName: user?.profile?.resumeOriginalName || "",
+  })
+  console.log("formData", formData);
+  const [workModalOpen, setWorkModalOpen] = useState(false)
+  const [educationModalOpen, setEducationModalOpen] = useState(false)
+  const [resumeUploadOpen, setResumeUploadOpen] = useState(false)
+  const [skillsModalOpen, setSkillsModalOpen] = useState(false)
+  const [certificatesModalOpen, setCertificatesModalOpen] = useState(false)
+  const [selectedSkillCategory, setSelectedSkillCategory] = useState("")
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+      // If the field is workExperience or education, we need to handle it differently
+      workExperience: {
+        ...prevData.workExperience,
+        [name]: value,
+      }
+    }))
   }
+
+  const handleSubmit = async() =>{
+    // Handle form submission logic here
+    // For example, you can send the updated data to the server
+    console.log("Form submitted:", formData)
+
+    try {
+      const res = await axiosInstance.post("/api/user/profile/update", formData, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        }}
+      )
+      if(res.status === 200) {
+        toast.success("Profile updated successfully")
+        // Optionally, you can update the user state in Redux or context
+         dispatch(setUser(res.data.user))
+      }
+
+    } catch (error) {
+      console.error("Error updating profile:", error)
+      toast.error(error.response?.data?.message || "Failed to update profile")
+    }
+    setIsEditing(false)
+  }
+
   return (
     <div className="container mx-auto py-6 px-4 md:px-6 max-w-7xl">
       {/* Profile Header */}
@@ -59,7 +108,10 @@ const Profile = ()=> {
               className="h-24 w-24 border-4"
               style={{ borderColor: BLUE_COLOR }}
             >
-              <AvatarImage src={user.profile.profilePhoto} alt="User profile" />
+              <AvatarImage
+                src={user.profile.profilePhoto || "/placeholder.svg"}
+                alt="User profile"
+              />
               <AvatarFallback className="text-2xl">JD</AvatarFallback>
             </Avatar>
             <h2 className="mt-4 text-2xl font-bold">{user.fullname}</h2>
@@ -198,18 +250,32 @@ const Profile = ()=> {
                   />
                   About Me
                 </CardTitle>
-                <Button onClick={()=>setIsEditing(true)} variant="ghost" size="sm">
-                  <Edit className="h-4 w-4" />
+                <Button
+                  onClick={() => setIsEditing(!isEditing)}
+                  variant="ghost"
+                  size="sm"
+                >
+                  {isEditing ? (
+                    <Button onClick={handleSubmit} variant="ghost">
+                      Save
+                    </Button>
+                  ) : (
+                    <>
+                      <Edit className="h-4 w-4" />
+                    </>
+                  )}
                 </Button>
               </div>
             </CardHeader>
             <CardContent>
               <textarea
-                className="w-full border rounded p-2 text-sm text-muted-foreground resize-none  focus:outline-violet-500 "
+                className="w-full border rounded p-2 text-sm text-muted-foreground resize-none focus:outline-violet-500"
                 rows={5}
-                value={aboutText}
-                onChange={(e) => setAboutText(e.target.value)}
+                value={formData.bio}
+                name="bio"
+                onChange={handleChange}
                 readOnly={!isEditing}
+                style={{ backgroundColor: isEditing ? "white" : "transparent" }}
               />
             </CardContent>
           </Card>
@@ -224,50 +290,47 @@ const Profile = ()=> {
                   />
                   Work Experience
                 </CardTitle>
-                <Button variant="ghost" size="sm">
+                <Button
+                  onClick={() => setWorkModalOpen(true)}
+                  variant="ghost"
+                  size="sm"
+                >
                   <Plus className="h-4 w-4" />
                 </Button>
               </div>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <h3 className="font-semibold">Senior Software Engineer</h3>
-                  <div className="flex items-center">
-                    <Calendar className="h-4 w-4 mr-1 text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground">
-                      2020 - Present
-                    </span>
+            {formData?.workExperience?.map((work, index) => (
+              <CardContent className="space-y-6">
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <h3 className="font-semibold">{work?.designation}</h3>
+                    <div className="flex items-center">
+                      <Calendar className="h-4 w-4 mr-1 text-muted-foreground" />
+                      <span className="text-sm text-muted-foreground">
+                        {" "}
+                        {new Date(work?.from).toLocaleDateString("en-US", {
+                          month: "long",
+                          year: "numeric",
+                        })}{" "}
+                        -  {" "}
+                        {work?.to
+                          ? new Date(work.to).toLocaleDateString("en-US", {
+                              month: "long",
+                              year: "numeric",
+                            })
+                          : "Present"}
+                      </span>
+                    </div>
                   </div>
+                  <p className="text-sm font-medium">{work.companyName}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {work?.description}
+                  </p>
                 </div>
-                <p className="text-sm font-medium">TechCorp Inc.</p>
-                <p className="text-sm text-muted-foreground">
-                  Led a team of 5 developers in building a cloud-based SaaS
-                  platform. Implemented CI/CD pipelines and microservices
-                  architecture.
-                </p>
-              </div>
 
-              <Separator />
-
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <h3 className="font-semibold">Software Developer</h3>
-                  <div className="flex items-center">
-                    <Calendar className="h-4 w-4 mr-1 text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground">
-                      2017 - 2020
-                    </span>
-                  </div>
-                </div>
-                <p className="text-sm font-medium">InnovateSoft</p>
-                <p className="text-sm text-muted-foreground">
-                  Developed and maintained web applications using React and
-                  Node.js. Collaborated with UX designers to implement
-                  responsive designs.
-                </p>
-              </div>
-            </CardContent>
+                <Separator />
+              </CardContent>
+            ))}
             <CardFooter>
               <Button variant="outline" className="w-full">
                 View All Experience
@@ -285,7 +348,11 @@ const Profile = ()=> {
                   />
                   Education
                 </CardTitle>
-                <Button variant="ghost" size="sm">
+                <Button
+                  onClick={() => setEducationModalOpen(true)}
+                  variant="ghost"
+                  size="sm"
+                >
                   <Plus className="h-4 w-4" />
                 </Button>
               </div>
@@ -387,6 +454,10 @@ const Profile = ()=> {
                     <Badge
                       variant="outline"
                       className="px-3 py-1 cursor-pointer"
+                      onClick={() => {
+                        setSelectedSkillCategory("Programming Languages");
+                        setSkillsModalOpen(true);
+                      }}
                     >
                       + Add
                     </Badge>
@@ -431,6 +502,10 @@ const Profile = ()=> {
                     <Badge
                       variant="outline"
                       className="px-3 py-1 cursor-pointer"
+                      onClick={() => {
+                        setSelectedSkillCategory("Frameworks & Libraries");
+                        setSkillsModalOpen(true);
+                      }}
                     >
                       + Add
                     </Badge>
@@ -475,6 +550,10 @@ const Profile = ()=> {
                     <Badge
                       variant="outline"
                       className="px-3 py-1 cursor-pointer"
+                      onClick={() => {
+                        setSelectedSkillCategory("Tools & Technologies");
+                        setSkillsModalOpen(true);
+                      }}
                     >
                       + Add
                     </Badge>
@@ -484,7 +563,7 @@ const Profile = ()=> {
             </CardContent>
           </Card>
 
-          <Card className="border-none shadow-md mt-6">
+          {/* <Card className="border-none shadow-md mt-6">
             <CardHeader>
               <div className="flex justify-between items-center">
                 <CardTitle>Soft Skills</CardTitle>
@@ -500,15 +579,8 @@ const Profile = ()=> {
                     <span className="text-sm font-medium">Team Leadership</span>
                     <span className="text-sm">Expert</span>
                   </div>
-                  <Progress
-                    value={90}
-                    className="h-2"
-                    style={{ backgroundColor: "rgba(34, 197, 94, 0.2)" }}
-                  >
-                    <div
-                      className="h-full"
-                      style={{ backgroundColor: GREEN_COLOR }}
-                    ></div>
+                  <Progress value={90} className="h-2" style={{ backgroundColor: "rgba(34, 197, 94, 0.2)" }}>
+                    <div className="h-full" style={{ backgroundColor: GREEN_COLOR }}></div>
                   </Progress>
                 </div>
 
@@ -517,15 +589,8 @@ const Profile = ()=> {
                     <span className="text-sm font-medium">Problem Solving</span>
                     <span className="text-sm">Expert</span>
                   </div>
-                  <Progress
-                    value={95}
-                    className="h-2"
-                    style={{ backgroundColor: "rgba(34, 197, 94, 0.2)" }}
-                  >
-                    <div
-                      className="h-full"
-                      style={{ backgroundColor: GREEN_COLOR }}
-                    ></div>
+                  <Progress value={95} className="h-2" style={{ backgroundColor: "rgba(34, 197, 94, 0.2)" }}>
+                    <div className="h-full" style={{ backgroundColor: GREEN_COLOR }}></div>
                   </Progress>
                 </div>
 
@@ -534,15 +599,8 @@ const Profile = ()=> {
                     <span className="text-sm font-medium">Communication</span>
                     <span className="text-sm">Advanced</span>
                   </div>
-                  <Progress
-                    value={85}
-                    className="h-2"
-                    style={{ backgroundColor: "rgba(34, 197, 94, 0.2)" }}
-                  >
-                    <div
-                      className="h-full"
-                      style={{ backgroundColor: GREEN_COLOR }}
-                    ></div>
+                  <Progress value={85} className="h-2" style={{ backgroundColor: "rgba(34, 197, 94, 0.2)" }}>
+                    <div className="h-full" style={{ backgroundColor: GREEN_COLOR }}></div>
                   </Progress>
                 </div>
 
@@ -551,20 +609,13 @@ const Profile = ()=> {
                     <span className="text-sm font-medium">Time Management</span>
                     <span className="text-sm">Advanced</span>
                   </div>
-                  <Progress
-                    value={80}
-                    className="h-2"
-                    style={{ backgroundColor: "rgba(34, 197, 94, 0.2)" }}
-                  >
-                    <div
-                      className="h-full"
-                      style={{ backgroundColor: GREEN_COLOR }}
-                    ></div>
+                  <Progress value={80} className="h-2" style={{ backgroundColor: "rgba(34, 197, 94, 0.2)" }}>
+                    <div className="h-full" style={{ backgroundColor: GREEN_COLOR }}></div>
                   </Progress>
                 </div>
               </div>
             </CardContent>
-          </Card>
+          </Card> */}
 
           <Card className="border-none shadow-md mt-6">
             <CardHeader>
@@ -622,7 +673,11 @@ const Profile = ()=> {
               </div>
             </CardContent>
             <CardFooter>
-              <Button variant="outline" className="w-full">
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={() => setCertificatesModalOpen(true)}
+              >
                 Add New Certification
               </Button>
             </CardFooter>
@@ -957,7 +1012,10 @@ const Profile = ()=> {
             <CardHeader>
               <div className="flex justify-between items-center">
                 <CardTitle>Uploaded Resumes</CardTitle>
-                <Button style={{ backgroundColor: BLUE_COLOR }}>
+                <Button
+                  onClick={() => setResumeUploadOpen(true)}
+                  style={{ backgroundColor: BLUE_COLOR }}
+                >
                   <Plus className="mr-2 h-4 w-4" /> Upload New Resume
                 </Button>
               </div>
@@ -1139,6 +1197,334 @@ const Profile = ()=> {
         </TabsContent>
       </Tabs>
       <UpdateProfile open={open} setOpen={setOpen} />
+      {/* Work Experience Modal */}
+      {workModalOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h3 className="text-lg font-bold mb-4">Add Work Experience</h3>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Job Title</label>
+                <input
+                  onChange={handleChange}
+                  name="designation"
+                  type="text"
+                  className="w-full border rounded p-2 text-sm"
+                  placeholder="e.g. Software Engineer"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Company</label>
+                <input
+                  onChange={handleChange}
+                  name="companyName"
+                  type="text"
+                  className="w-full border rounded p-2 text-sm"
+                  placeholder="e.g. Tech Company Inc."
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Start Date</label>
+                  <input
+                    onChange={handleChange}
+                    name="from"
+                    type="date"
+                    className="w-full border rounded p-2 text-sm"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">End Date</label>
+                  <input
+                    onChange={handleChange}
+                    name="to"
+                    type="date"
+                    className="w-full border rounded p-2 text-sm"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Description</label>
+                <textarea
+                  onChange={handleChange}
+                  name="description"
+                  type="text"
+                  className="w-full border rounded p-2 text-sm resize-none"
+                  rows={4}
+                  placeholder="Describe your responsibilities and achievements..."
+                />
+              </div>
+            </div>
+            <div className="flex justify-end gap-2 mt-6">
+              <Button variant="outline" onClick={() => setWorkModalOpen(false)}>
+                Cancel
+              </Button>
+              <Button
+                style={{ backgroundColor: BLUE_COLOR }}
+                onClick={() => {
+                  handleSubmit();
+                  setWorkModalOpen(false);
+                }}
+              >
+                Save
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Education Modal */}
+      {educationModalOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h3 className="text-lg font-bold mb-4">Add Education</h3>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Degree</label>
+                <input
+                  type="text"
+                  className="w-full border rounded p-2 text-sm"
+                  placeholder="e.g. Bachelor of Science"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Institution</label>
+                <input
+                  type="text"
+                  className="w-full border rounded p-2 text-sm"
+                  placeholder="e.g. University Name"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Start Year</label>
+                  <input
+                    type="text"
+                    className="w-full border rounded p-2 text-sm"
+                    placeholder="e.g. 2018"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">End Year</label>
+                  <input
+                    type="text"
+                    className="w-full border rounded p-2 text-sm"
+                    placeholder="e.g. 2022"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Description</label>
+                <textarea
+                  className="w-full border rounded p-2 text-sm resize-none"
+                  rows={4}
+                  placeholder="Additional details about your education..."
+                />
+              </div>
+            </div>
+            <div className="flex justify-end gap-2 mt-6">
+              <Button
+                variant="outline"
+                onClick={() => setEducationModalOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                style={{ backgroundColor: BLUE_COLOR }}
+                onClick={() => setEducationModalOpen(false)}
+              >
+                Save
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Resume Upload Modal */}
+      {resumeUploadOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h3 className="text-lg font-bold mb-4">Upload Resume</h3>
+            <div className="space-y-4">
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                <FileText
+                  className="h-12 w-12 mx-auto mb-4"
+                  style={{ color: BLUE_COLOR }}
+                />
+                <p className="text-sm font-medium mb-2">
+                  Drag and drop your resume here
+                </p>
+                <p className="text-xs text-muted-foreground mb-4">
+                  Supported formats: PDF, DOCX, RTF
+                </p>
+                <Button variant="outline" size="sm">
+                  Browse Files
+                </Button>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Resume Name</label>
+                <input
+                  type="text"
+                  className="w-full border rounded p-2 text-sm"
+                  placeholder="e.g. Software_Engineer_Resume_2023"
+                />
+              </div>
+            </div>
+            <div className="flex justify-end gap-2 mt-6">
+              <Button
+                variant="outline"
+                onClick={() => setResumeUploadOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                style={{ backgroundColor: BLUE_COLOR }}
+                onClick={() => setResumeUploadOpen(false)}
+              >
+                Upload
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Skills Modal */}
+      {skillsModalOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h3 className="text-lg font-bold mb-4">
+              Add Skill - {selectedSkillCategory}
+            </h3>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Skill Name</label>
+                <input
+                  type="text"
+                  className="w-full border rounded p-2 text-sm"
+                  placeholder="e.g. React, Python, Docker..."
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Proficiency Level</label>
+                <select className="w-full border rounded p-2 text-sm">
+                  <option value="">Select Level</option>
+                  <option value="beginner">Beginner</option>
+                  <option value="intermediate">Intermediate</option>
+                  <option value="advanced">Advanced</option>
+                  <option value="expert">Expert</option>
+                </select>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">
+                  Years of Experience
+                </label>
+                <input
+                  type="number"
+                  className="w-full border rounded p-2 text-sm"
+                  placeholder="e.g. 3"
+                  min="0"
+                  max="20"
+                />
+              </div>
+            </div>
+            <div className="flex justify-end gap-2 mt-6">
+              <Button
+                variant="outline"
+                onClick={() => setSkillsModalOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                style={{ backgroundColor: BLUE_COLOR }}
+                onClick={() => setSkillsModalOpen(false)}
+              >
+                Add Skill
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Certificates Modal */}
+      {certificatesModalOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h3 className="text-lg font-bold mb-4">Add New Certification</h3>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">
+                  Certification Name
+                </label>
+                <input
+                  type="text"
+                  className="w-full border rounded p-2 text-sm"
+                  placeholder="e.g. AWS Certified Solutions Architect"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">
+                  Issuing Organization
+                </label>
+                <input
+                  type="text"
+                  className="w-full border rounded p-2 text-sm"
+                  placeholder="e.g. Amazon Web Services"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Issue Date</label>
+                  <input
+                    type="date"
+                    className="w-full border rounded p-2 text-sm"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Expiry Date</label>
+                  <input
+                    type="date"
+                    className="w-full border rounded p-2 text-sm"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">
+                  Credential ID (Optional)
+                </label>
+                <input
+                  type="text"
+                  className="w-full border rounded p-2 text-sm"
+                  placeholder="e.g. ABC123XYZ"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">
+                  Credential URL (Optional)
+                </label>
+                <input
+                  type="url"
+                  className="w-full border rounded p-2 text-sm"
+                  placeholder="https://..."
+                />
+              </div>
+            </div>
+            <div className="flex justify-end gap-2 mt-6">
+              <Button
+                variant="outline"
+                onClick={() => setCertificatesModalOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                style={{ backgroundColor: BLUE_COLOR }}
+                onClick={() => setCertificatesModalOpen(false)}
+              >
+                Add Certification
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

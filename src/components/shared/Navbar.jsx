@@ -22,16 +22,17 @@ import { useState } from "react";
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   const handleLogout = async()=>{
     setOpen(false)
     try {
       await axiosInstance.get("/api/user/logout", {
         withCredentials: true,
-      });
+      });                               
       dispatch(setUser(null));
     } catch (error) {
-      console.log(error);
+      console.log(error); 
     }
 
   }
@@ -107,7 +108,7 @@ const Navbar = () => {
                   >
                     <Avatar>
                       <AvatarImage
-                        src={user.profile.profilePhoto}
+                        src={user?.profile?.profilePhoto}
                         alt="User profile"
                       />
                       <AvatarFallback>MS</AvatarFallback>
