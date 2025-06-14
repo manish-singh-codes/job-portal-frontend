@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setUser } from "./redux/authSlice";
 import { useEffect } from "react";
 import axiosInstance from "./utils/axios/axiosInstance";
-import { LoaderCircle } from "lucide-react";
+
 function App() {
   
   const dispatch = useDispatch();

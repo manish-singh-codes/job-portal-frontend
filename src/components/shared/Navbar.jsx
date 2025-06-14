@@ -108,7 +108,7 @@ const Navbar = () => {
                   >
                     <Avatar>
                       <AvatarImage
-                        src={user?.profile?.profilePhoto}
+                        src={user.profile.profilePhoto}
                         alt="User profile"
                       />
                       <AvatarFallback>MS</AvatarFallback>
@@ -120,7 +120,7 @@ const Navbar = () => {
                     <div className="flex items-center gap-3 pb-3 border-b">
                       <Avatar className="h-10 w-10">
                         <AvatarImage
-                          src={user?.profile?.profilePhoto}
+                          src={user.profile.profilePhoto}
                           alt="User profile"
                         />
                         <AvatarFallback>MS</AvatarFallback>
@@ -134,6 +134,7 @@ const Navbar = () => {
                       <Button asChild 
                         variant="ghost" 
                         className="w-full justify-start gap-2 text-gray-600 hover:text-gray-900"
+                        onClick={()=>setOpen(false)}
                       >
                         <Link to={'/profile'} >
                         <User2 className="h-4 w-4" />

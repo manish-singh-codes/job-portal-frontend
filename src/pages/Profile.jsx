@@ -128,15 +128,15 @@ const Profile = () => {
             <div className="mt-6 w-full grid gap-3">
               <div className="flex items-center">
                 <Mail className="h-4 w-4 mr-2 text-muted-foreground" />
-                <span className="text-sm">john.doe@example.com</span>
+                <span className="text-sm">{user.email}</span>
               </div>
               <div className="flex items-center">
                 <Phone className="h-4 w-4 mr-2 text-muted-foreground" />
-                <span className="text-sm">+1 (555) 123-4567</span>
+                <span className="text-sm">{ user?.phoneNumber || "NA" }</span>
               </div>
               <div className="flex items-center">
                 <MapPin className="h-4 w-4 mr-2 text-muted-foreground" />
-                <span className="text-sm">San Francisco, CA</span>
+                <span className="text-sm">{user?.location || "NA"}</span>
               </div>
             </div>
           </CardContent>
@@ -299,11 +299,11 @@ const Profile = () => {
                 </Button>
               </div>
             </CardHeader>
-            {formData?.workExperience?.map((work, index) => (
+            {Array.isArray(formData.workExperience) && formData.workExperience.map((work, index) => (
               <CardContent className="space-y-6">
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <h3 className="font-semibold">{work?.designation}</h3>
+                    <h3 className="font-semibold">{work.designation}</h3>
                     <div className="flex items-center">
                       <Calendar className="h-4 w-4 mr-1 text-muted-foreground" />
                       <span className="text-sm text-muted-foreground">
